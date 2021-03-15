@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nara_app/views/home.dart';
 
-import 'Reg_and_logo/Registration.dart';
-import 'Reg_and_logo/SignInPage.dart';
-import 'main.dart';
+import '../Reg_and_logo/Registration.dart';
+import '../Reg_and_logo/SignInPage.dart';
+import '../main.dart';
 
 
 void main(){
@@ -39,8 +39,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.redAccent,
         title: Text('Profile'),
+        centerTitle: true,
       ),
 
        body:SingleChildScrollView(
@@ -48,18 +49,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
          crossAxisAlignment: CrossAxisAlignment.stretch,
          mainAxisSize: MainAxisSize.max,
+
          children:<Widget> [
            Row(
-             mainAxisAlignment: MainAxisAlignment.start,
-             crossAxisAlignment: CrossAxisAlignment.start,
+             mainAxisAlignment: MainAxisAlignment.end,
+             crossAxisAlignment: CrossAxisAlignment.end,
              mainAxisSize: MainAxisSize.min,
              children:<Widget> [
               Padding(
-               padding: const EdgeInsets.all(8.0),
+               padding: const EdgeInsets.fromLTRB(8, 16, 8, 8),
                child: Container(padding: EdgeInsets.all(4),
               color: Colors.white,
                  child: FlatButton(
-                   color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Registration()));}, child: Text('New Account',style: TextStyle(color: Colors.blueGrey),),
+                   color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Registration()));}, child: Text('New Account',style: TextStyle(color: Colors.redAccent),),
            ),
 
          ),
@@ -69,64 +71,85 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                    child: Container(padding: EdgeInsets.all(4),
                  color: Colors.white,
                    child: FlatButton(
-                  color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));}, child: Text('Sign-in',style: TextStyle(color: Colors.blueGrey),),
+                  color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));}, child: Text('Sign-in',style: TextStyle(color: Colors.redAccent),),
           ),
         ),
       ),
                CircleAvatar( maxRadius: 50,
-               backgroundColor: Colors.blueGrey,
+               backgroundColor: Colors.redAccent,
                ),
 
 
              ],
            ),
 
-           Container(margin: EdgeInsets.only(top: 15,left: 1,right: 300),
-             color: Colors.white,
-             child: FlatButton(
-                 color: Colors.white,onPressed: (){}, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Username\t',style: TextStyle(color: Colors.blueGrey),),],)),
-           ),
-             Container(margin: EdgeInsets.only(top: 30,left: 1,right: 300),
+           Container(margin: EdgeInsets.only(top: 10,left: 150,right: 50),
+
+
+                 child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text('Username\t',style: TextStyle(color: Colors.redAccent,fontSize: 15,),),],)),
+
+           Container(margin: EdgeInsets.only(top: 20,left: 10,right: 150),
+             child:
+             Row(
+               mainAxisAlignment: MainAxisAlignment.start,
+               children: [Text('Setting \t',
+                 style: TextStyle(
+                   color: Colors.grey,
+                   fontSize: 15,
+               ),),
+                 ],)
+              ),
+
+             Container(margin: EdgeInsets.only(top: 20,left: 20,right: 150),
                color: Colors.white,
                child: FlatButton(
-                 color: Colors.white,onPressed: (){}, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Saved\t',style: TextStyle(color: Colors.blueGrey),),Icon(Icons.playlist_add,color: Colors.blueGrey,)],)),
+                 color: Colors.white,onPressed: (){},
+                   child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text('Saved\t',style: TextStyle(color: Colors.redAccent,fontSize: 15),),Icon(Icons.playlist_add,color: Colors.redAccent,)],)),
                ),
-           Container(margin: EdgeInsets.only(top: 20,left: 1,right: 40,bottom: 20),
+           Container(margin: EdgeInsets.only(top: 20,left: 20,right: 10,bottom: 10),
              color: Colors.white,
-            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Choose size of line\t',style: TextStyle(color: Colors.blueGrey,fontWeight:FontWeight.bold),),Slider(activeColor:Colors.blueGrey,value: _currentSliderValue,min: 20,max: 40,divisions: 5,label: _currentSliderValue.round().toString(), onChanged: (double s){ setState(() {
+            child: Row(mainAxisAlignment: MainAxisAlignment.start,
+              children: [Text('Choose size of line\t',
+                style: TextStyle(color: Colors.redAccent,fontSize: 15,fontWeight:FontWeight.bold),
+              ),
+                Slider(
+                    activeColor:Colors.redAccent,
+                    value: _currentSliderValue,
+                    min: 20,max: 40,divisions: 5,
+                    label: _currentSliderValue.round().toString(),
+                    onChanged: (double s){
+                      setState(() {
               _currentSliderValue=s;
             });})],)
            ),
-           Container(margin: EdgeInsets.only(top: 5,left: 1,right: 250),
+           Container(margin: EdgeInsets.only(top: 10,left: 20,right: 150),
              color: Colors.white,
              child: FlatButton(
-                 color: Colors.white,onPressed: (){_showMyDialog();}, child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Change Password\t',style: TextStyle(color: Colors.blueGrey),),],)),
+                 color: Colors.white,onPressed: (){_showMyDialog();}, child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text('Change Password\t',style: TextStyle(color: Colors.redAccent,fontSize: 15,),),],)),
            ),
 
-             Padding(
-               padding: const EdgeInsets.all(4.0),
-               child: Container(padding: EdgeInsets.all(4),
+           Container(margin: EdgeInsets.only(top: 20,left: 20,right: 150),
                  color: Colors.white,
                  child: FlatButton(
-                   color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignIn()));}, child: Text('Sign out',style: TextStyle(color: Colors.blueGrey),),
+                   color: Colors.white,onPressed: (){ Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignIn()));}, child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [Text('Sign out',style: TextStyle(color: Colors.redAccent,fontSize: 15,),),]),
+
                  ),
                ),
-             ),
          ],
        ),
        ),
 
        bottomNavigationBar: BottomNavigationBar(
         items:  <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.home_rounded,color: Colors.blueGrey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home())); },) ,
+          BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.home_rounded,color: Colors.grey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home())); },) ,
             label: 'Home',
-            //title: Text('Home',style: TextStyle(color: Colors.blueGrey),)
+            //title: Text('Home',style: TextStyle(color: Colors.redAccent),)
           ),
-          BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.account_circle,color: Colors.blueGrey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Profile())); },) ,
+          BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.account_circle,color: Colors.redAccent,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Profile())); },) ,
             label: 'Profile',
           ),
         ],
-         fixedColor: Colors.blueGrey,
+         fixedColor: Colors.redAccent,
      ),
 
     );
@@ -180,13 +203,13 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           ),
           actions: <Widget>[
             TextButton(
-              child: Text('Apply',style: TextStyle(color: Colors.blueGrey),),
+              child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Cancel',style: TextStyle(color: Colors.blueGrey),),
+              child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
