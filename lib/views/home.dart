@@ -7,6 +7,8 @@ import 'package:nara_app/models/category_model.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
 
+import '../profile.dart';
+
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -83,21 +85,23 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.filter_list),
-            label: 'Categories',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.redAccent,
-        onTap: _onItemTapped,
-      ),
+        bottomNavigationBar: BottomNavigationBar(
+          items:  <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.home_rounded,color: Colors.blueGrey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home())); },) ,
+              label: 'Home',
+              //title: Text('Home',style: TextStyle(color: Colors.blueGrey),)
+            ),
+            BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.account_circle,color: Colors.blueGrey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Profile())); },) ,
+              label: 'Profile',
+            ),
+          ],
+          fixedColor: Colors.blueGrey,
+          //  currentIndex: _selectedIndex,
+          // selectedItemColor: Colors.redAccent[100],
+          //   onTap: _onItemTapped,
+
+
+        ),
 
     );
 
