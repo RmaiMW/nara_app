@@ -20,7 +20,8 @@ class _RegistrationState extends State<Registration> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+             //   colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+                colors: [ Colors.redAccent,Colors.redAccent[100]],
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomCenter,
                 stops: [0.0,0.8],
@@ -80,8 +81,8 @@ class _RegistrationState extends State<Registration> {
 
                   ]),
                   HStack([
-                    VxBox(child: "Cancel".text.white.makeCentered().p16()).red600.roundedLg.make().px16().py16(),
-                    VxBox(child: "Register".text.white.makeCentered().p16()).green600.roundedLg.make().px16().py16(),
+                    VxBox(child: "Cancel".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
+                    VxBox(child: "Register".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
                   ]),
                   GestureDetector(
                     onTap: (){

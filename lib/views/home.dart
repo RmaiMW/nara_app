@@ -85,7 +85,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
             ),
-        bottomNavigationBar: BottomNavigationBar(
+      /*  bottomNavigationBar: BottomNavigationBar(
           items:  <BottomNavigationBarItem>[
             BottomNavigationBarItem(icon:IconButton(icon:Icon(Icons.home_rounded,color: Colors.blueGrey,), onPressed: () { Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Home())); },) ,
               label: 'Home',
@@ -101,7 +101,21 @@ class _HomeState extends State<Home> {
           //   onTap: _onItemTapped,
 
 
-        ),
+        ),*/
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        selectedFontSize: 14,
+        unselectedFontSize: 13,
+        unselectedItemColor:Colors.blueGrey,
+        selectedItemColor:Colors.redAccent,
+        items: [
+          BottomNavigationBarItem(icon:Icon(Icons.home),//_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
+            label:'Home',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle),label: 'Profile',),
+        ],
+        onTap: _onItemTapped,
+      ),
 
     );
 
@@ -114,8 +128,8 @@ class _HomeState extends State<Home> {
     setState(() {
       _selectedIndex = index;
       print(_selectedIndex);
-      if (_selectedIndex == 0) Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Home()));
+      if (_selectedIndex == 0) Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+      else Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
     });
   }
 }

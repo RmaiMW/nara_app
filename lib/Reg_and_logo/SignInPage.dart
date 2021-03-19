@@ -21,7 +21,8 @@ class _SignInPageState extends State<SignInPage> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+             //   colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+                colors: [ Colors.redAccent,Colors.redAccent[100]],
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomCenter,
                 stops: [0.0,0.8],
@@ -66,7 +67,7 @@ class _SignInPageState extends State<SignInPage> {
                   ]),
                   HStack([
                     GestureDetector(
-                      child: VxBox(child: "Get Started".text.white.makeCentered().p16()).green600.roundedLg.make(),
+                      child: VxBox(child: "Get Started".text.white.makeCentered().p16()).red500.roundedLg.make(),
                       onTap: (){
                         print("Sign In");
                         Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
@@ -101,7 +102,7 @@ class _SignInPageState extends State<SignInPage> {
           },
           child: Container(
               height: 25,
-              color: Colors.lightBlue,
+              color: Colors.redAccent,
               child: Center(child: "Create a new Account..! Sign Up".text.white.makeCentered())),
         ),
       ),

@@ -1,25 +1,29 @@
 import 'dart:async';
 
-enum NavBarItem { HOME, SOURCES, SEARCH }
+import 'dart:js';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:nara_app/profile.dart';
+import 'package:nara_app/views/home.dart';
+
+enum NavBarItem { HOME, PROFILE, }
 
 class BottomNavBarBloc {
   final StreamController<NavBarItem> _navBarController =
       StreamController<NavBarItem>.broadcast();
 
   NavBarItem defaultItem = NavBarItem.HOME;
-
+  BuildContext context;
   Stream<NavBarItem> get itemStream => _navBarController.stream;
 
   void pickItem(int i) {
     switch (i) {
       case 0:
-        _navBarController.sink.add(NavBarItem.HOME);
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>Home()));
         break;
       case 1:
-        _navBarController.sink.add(NavBarItem.SOURCES);
-        break;
-      case 2:
-        _navBarController.sink.add(NavBarItem.SEARCH);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
         break;
     }
   }

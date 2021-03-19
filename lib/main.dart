@@ -40,7 +40,8 @@ class _SignInState extends State<SignIn> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: LinearGradient(
-                colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+           //     colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+             colors: [ Colors.redAccent,Colors.redAccent[100]],
                 begin: FractionalOffset.topLeft,
                 end: FractionalOffset.bottomCenter,
                 stops: [0.0,0.8],
