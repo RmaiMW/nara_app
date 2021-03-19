@@ -7,7 +7,7 @@ import 'package:nara_app/models/category_model.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
 
-import '../profile.dart';
+import 'profile.dart';
 
 class Home extends StatefulWidget {
   @override
