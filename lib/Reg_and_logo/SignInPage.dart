@@ -4,17 +4,28 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CommonLogo.dart';
 import 'Registration.dart';
+import 'package:nara_app/services/auth.dart';
+import 'package:nara_app/views/loading.dart';
 
 class SignInPage extends StatefulWidget {
+
   @override
   _SignInPageState createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
   bool checked = true;
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  String error = '';
+  bool loading = false;
+
+  // text field state
+  String email = '';
+  String password = '';
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return loading ? Loading() : SafeArea(
       child: Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -38,23 +49,34 @@ class _SignInPageState extends State<SignInPage> {
                   HeightBox(10),
                   "Email Sign-IN".text.size(22).yellow100.make(),
 
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Email",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
+                      setState(() => email = val);
+                    },
                   ).p4().px24(),
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.text,
+                    obscureText: true,
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Password",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                    validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    },
                   ).p4().px24(),
 
                   HStack([
@@ -66,6 +88,25 @@ class _SignInPageState extends State<SignInPage> {
 
                   ]),
                   HStack([
+                    RaisedButton(
+                        color: Colors.red[500],
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          if(_formKey.currentState.validate()){
+                            setState(() => loading = true);
+                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                            if(result == null) {
+                              setState(() {
+                                loading = false;
+                                error = 'Could not sign in with those credentials';
+                              });
+                            }
+                          }
+                        }
+                    ),
                     GestureDetector(
                       child: VxBox(child: "Get Started".text.white.makeCentered().p16()).red500.roundedLg.make(),
                       onTap: (){

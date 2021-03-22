@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "820231583084",
+    "project_id": "nara-news-2d068",
+    "storage_bucket": "nara-news-2d068.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:820231583084:android:d8dcfc96d3d4a314d3ef49",
+        "android_client_info": {
+          "package_name": "com.example.nara_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "820231583084-ldfuk9knn3qfqlo4jnfdvtb5qq2s1tj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiUfiRKN_70whFOftuZZqfPE-vNo3IgqA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "820231583084-ldfuk9knn3qfqlo4jnfdvtb5qq2s1tj1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

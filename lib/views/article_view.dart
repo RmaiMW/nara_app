@@ -20,30 +20,20 @@ class _ArticleViewState extends State<ArticleView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        backgroundColor: Colors.redAccent,
         elevation: 0.0,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Flutter'),
+            Text('NARA'),
             Text(
-              'News',
+              ' News',
               style: TextStyle(
-                color: Colors.blue,
+                color: Colors.blueGrey,
               ),
             ),
           ],
         ),
-        actions: <Widget>[
-          Opacity(
-            opacity: 0,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              child: Icon(Icons.save),
-            ),
-          ),
-        ],
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,

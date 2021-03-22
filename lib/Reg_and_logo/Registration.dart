@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:velocity_x/velocity_x.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CommonLogo.dart';
 import 'SignInPage.dart';
+import 'package:nara_app/services/auth.dart';
+import 'package:nara_app/views/loading.dart';
 
 class Registration extends StatefulWidget {
   @override
@@ -11,9 +12,19 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   bool checked = true;
+  final AuthService _auth = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  String error = '';
+  bool loading = false;
+
+  // text field state
+  String email = '';
+  String password = '';
+
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return loading ? Loading(): SafeArea(
       child: Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -32,45 +43,52 @@ class _RegistrationState extends State<Registration> {
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                key: _formKey,
                 children: <Widget>[
                   CommonLogo(),
                   HeightBox(10),
                   "CREATE YOUR ACCOUNT".text.size(22).yellow100.make(),
-                  TextField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Full Name",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                  ).p4().px24(),
-                  TextField(
+
+                  TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Email",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                    validator: (val) => val.isEmpty ? 'Enter an email' : null,
+                    onChanged: (val) {
+                      setState(() => email = val);
+                    },
+
                   ).p4().px24(),
-                  TextField(
+                  TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Password",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                    obscureText: true,
+                    validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                    onChanged: (val) {
+                      setState(() => password = val);
+                    },
                   ).p4().px24(),
-                  TextField(
-                    keyboardType: TextInputType.text,
+                  TextFormField(
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "re-enter password",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                      obscureText: true,
+                      validator: (val) => val == password ? 'Re-Enter the Password Pleasae!' : null,
                   ).p4().px24(),
                   HStack([
                     Checkbox(
@@ -82,7 +100,34 @@ class _RegistrationState extends State<Registration> {
                   ]),
                   HStack([
                     VxBox(child: "Cancel".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
-                    VxBox(child: "Register".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
+                    RaisedButton(
+                        color: Colors.red[500],
+                        shape: RoundedRectangleBorder(),
+                        child: Text(
+                          'Register',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () async {
+                          print(password);
+                          print(email);
+                          if(_formKey.currentState.validate()){
+                            setState(() => loading = true);
+                            dynamic result = await _auth.registerWithEmailAndPassword(email, password);
+                            print(result);
+                            if(result == null) {
+                              setState(() {
+                                loading = false;
+                                error = 'Please supply a valid email';
+                              }
+                              );
+                            }
+                            return Registration();
+                          }
+                        }
+                    ).px16().py16(),
+                    VxBox(
+                      child: "Register".text.white.makeCentered().p16(),
+                    ).red500.roundedLg.make().px16().py16(),
                   ]),
                   GestureDetector(
                     onTap: (){
@@ -93,6 +138,10 @@ class _RegistrationState extends State<Registration> {
                       "Already Registered?".text.make(),
                       " Sign In".text.white.make()
                     ]).centered(),
+                  ),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
                   )
                 ],
               ),

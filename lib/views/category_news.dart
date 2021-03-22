@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nara_app/helper/news.dart';
 import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/views/article_list.dart';
-
+import 'loading.dart';
 
 class CategoryNews extends StatefulWidget {
   final String category;
@@ -14,7 +14,7 @@ class CategoryNews extends StatefulWidget {
 
 class _CategoryNewsState extends State<CategoryNews> {
   List<ArticleModel> articles = new List<ArticleModel>();
-  bool _loading = true;
+  bool loading = true;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _CategoryNewsState extends State<CategoryNews> {
     await newsClass.getNews(widget.category);
     articles = newsClass.news;
     setState(() {
-      _loading = false;
+      loading = false;
     });
   }
 
@@ -60,7 +60,7 @@ class _CategoryNewsState extends State<CategoryNews> {
           ),
         ],
       ),
-      body: _loading
+      body: loading
           ? Center(
               child: Container(
                 child: CircularProgressIndicator(),
