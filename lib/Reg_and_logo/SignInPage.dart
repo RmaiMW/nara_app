@@ -40,7 +40,9 @@ class _SignInPageState extends State<SignInPage> {
                 tileMode: TileMode.mirror
             ),
           ),
-          child: Center(
+          child:Form(
+            key: _formKey,
+           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,6 +137,7 @@ class _SignInPageState extends State<SignInPage> {
                 ],
               ),
             ),
+          ),
           ),
         ),
         bottomNavigationBar: GestureDetector(

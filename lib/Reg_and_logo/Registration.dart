@@ -39,11 +39,13 @@ class _RegistrationState extends State<Registration> {
                 tileMode: TileMode.mirror
             ),
           ),
+          child:Form(
+            key: _formKey,
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                key: _formKey,
+               // key: _formKey,
                 children: <Widget>[
                   CommonLogo(),
                   HeightBox(10),
@@ -111,7 +113,7 @@ class _RegistrationState extends State<Registration> {
                           print(password);
                           print(email);
                           if(_formKey.currentState.validate()){
-                            setState(() => loading = true);
+                          //  setState(() => loading = true);
                             dynamic result = await _auth.registerWithEmailAndPassword(email, password);
                             print(result);
                             if(result == null) {
@@ -147,6 +149,7 @@ class _RegistrationState extends State<Registration> {
               ),
             ),
           ),
+        ),
         ),
       ),
     );
