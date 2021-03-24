@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
+import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/home.dart';
 
@@ -31,7 +32,8 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
-  double _currentSliderValue = 20;
+  final AuthService _auth = AuthService();
+
   TabController _tabController;
   final _formKey = GlobalKey<FormState>();
   int _selectedIndex=0;
@@ -92,6 +94,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 GestureDetector(
                                   child: VxBox(child:'${userData.username}'.text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
                                   onTap: (){
+                                    _showMyName();
                                     //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                                   },
                                 ),
@@ -109,36 +112,28 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                           HStack( [
                             GestureDetector(
-                              child: VxBox(child:Row(children:[Text("Saved",style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,/*fontSize: 24*/),), Icon(Icons.playlist_add,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
+                              child: VxBox(child:Row(children:[Text("Favorite",style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,/*fontSize: 24*/),), Icon(Icons.favorite,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
                               onTap: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                               },
                             ),
                           ]),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 40,right: 20,bottom: 10,top: 10),
-                            child: Container(//margin: EdgeInsets.only(top: 20,left: 1,right: 40,bottom: 20),
-                                color: Colors.white,
-                                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Choose size of line\t',style: TextStyle(color: Colors.redAccent,fontWeight:FontWeight.bold),),Slider(activeColor:Colors.redAccent,value: _currentSliderValue,min: 20,max: 40,divisions: 5,label: _currentSliderValue.round().toString(), onChanged: (double s){ setState(() {
-                                  _currentSliderValue=s;
-                                });})],)
-                            ),
-                          ),
+                          SizedBox(height: 20,),
                           HStack([
                             GestureDetector(
-                              child: VxBox(child: "Change Password".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
+                              child: VxBox(child: "Change Password".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
                               onTap: (){
                                 _showMyDialog();
                               },
                             )
                           ]),
-                          Row(mainAxisAlignment: MainAxisAlignment.center,
+                         /* Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               HStack([
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
-                                    child: VxBox(child: "New Account".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                    child: VxBox(child: "New Account".text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>Registration()));
                                     },
@@ -151,7 +146,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: GestureDetector(
-                                    child: VxBox(child: "Sign-in".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                    child: VxBox(child: "Sign-in".text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
                                     onTap: (){
                                       Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                                     },
@@ -160,22 +155,24 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               ),
 
                             ],
-                          ),
+                          ),*/
                           HStack([
                             GestureDetector(
-                              child: VxBox(child: "Sign out".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
+                              child: VxBox(child: "Sign out".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
                               onTap: ()async {
-
+                                await _auth.signOut();
                               //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                               },
                             )
                           ]),
+                        //  FlatButton(onPressed: () async{ await _auth.signOut();}, child: Text('out')),
 
                         ],
                       ),
                     ),
                   ),
                 ),
+
 
 
                 bottomNavigationBar: BottomNavigationBar(
@@ -211,13 +208,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     });
   }
 
+  //change password
   Future<void> _showMyDialog() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Change Password'),
+          title: Text('Change Password',style: TextStyle(color: Colors.redAccent),),
           content:SingleChildScrollView(
             child:Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -230,7 +228,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         fillColor: Colors.white,
                         hintText: "Current Password",
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
                   ),
                 ),
                 Container(margin:EdgeInsets.all(4), width: 200,height: 50,
@@ -253,6 +251,51 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         hintText: "re-enter NewPassword",
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //change name
+  Future<void> _showMyName() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Change Name',style: TextStyle(color: Colors.redAccent),),
+          content:SingleChildScrollView(
+            child:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container( margin:EdgeInsets.all(4), width: 200,height: 50,
+                  child:TextField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Your Name",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
                   ),
                 ),
               ],
