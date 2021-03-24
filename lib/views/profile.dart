@@ -92,7 +92,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             children:<Widget> [
                               HStack( [
                                 GestureDetector(
-                                  child: VxBox(child:'${userData.username}'.text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                  child: VxBox(child:'${userData.username}'.text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
                                   onTap: (){
                                     _showMyName();
                                     //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
@@ -112,9 +112,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                           HStack( [
                             GestureDetector(
-                              child: VxBox(child:Row(children:[Text("Favorite",style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,/*fontSize: 24*/),), Icon(Icons.favorite,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
+                              child: VxBox(child:Row(children:["Favorite".text.bold.red600.makeCentered(), Icon(Icons.favorite,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
                               onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                              //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                               },
                             ),
                           ]),
@@ -127,6 +127,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               },
                             )
                           ]),
+                         SizedBox(height: 20),
                          /* Row(mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               HStack([
