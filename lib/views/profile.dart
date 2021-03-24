@@ -164,8 +164,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           HStack([
                             GestureDetector(
                               child: VxBox(child: "Sign out".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
-                              onTap: (){
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                              onTap: ()async {
+
+                              //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                               },
                             )
                           ]),

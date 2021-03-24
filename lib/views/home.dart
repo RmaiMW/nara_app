@@ -26,6 +26,14 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
   bool loading = true;
 
+  bool _isVisible = false;
+
+  void show() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +59,7 @@ class _HomeState extends State<Home> {
           centerTitle: true,
           backgroundColor: Colors.redAccent,
           elevation: 0.0,
-
+          leading: Builder( builder: (context){return IconButton(icon: Icon(Icons.menu,color: Colors.redAccent,), onPressed: (){Scaffold.of(context).openDrawer();},);},),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -66,13 +74,30 @@ class _HomeState extends State<Home> {
             ],
           ),
             actions: <Widget>[
-              FlatButton.icon(
+            /*  FlatButton.icon(
                icon: Icon(Icons.person),
                label: Text('logout'),
               onPressed: () async {
                   await _auth.signOut();
                 },
-             ),]
+             ),*/
+              FlatButton.icon(onPressed:show,//(){ setState(() {
+                // _isVisible = !_isVisible;});},
+        icon: Icon(Icons.search,color: Colors.white,),label:Text(''),),
+              Visibility( visible: _isVisible,
+                  child:Expanded(child: TextField(
+                    keyboardType: TextInputType.text,
+                  cursorColor: Colors.white,
+                   decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        focusColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20.0)))),
+                  ))
+              )
+            ],
+
         ),
 
         body: loading
