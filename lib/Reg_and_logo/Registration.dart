@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nara_app/views/home.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'CommonLogo.dart';
 import 'SignInPage.dart';
@@ -6,6 +7,9 @@ import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/views/loading.dart';
 
 class Registration extends StatefulWidget {
+  final Function toggleView;
+  Registration({ this.toggleView });
+
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -90,7 +94,7 @@ class _RegistrationState extends State<Registration> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
                       obscureText: true,
-                      validator: (val) => val == password ? 'Re-Enter the Password Pleasae!' : null,
+                      validator: (val) => val == password ? null : 'Re-Enter the Password Pleasae!',
                   ).p4().px24(),
                   HStack([
                     Checkbox(
@@ -110,12 +114,10 @@ class _RegistrationState extends State<Registration> {
                           style: TextStyle(color: Colors.white),
                         ),
                         onPressed: () async {
-                          print(password);
-                          print(email);
                           if(_formKey.currentState.validate()){
-                          //  setState(() => loading = true);
+                            setState(() => loading = true);
                             dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-                            print(result);
+
                             if(result == null) {
                               setState(() {
                                 loading = false;
@@ -123,7 +125,6 @@ class _RegistrationState extends State<Registration> {
                               }
                               );
                             }
-                            return Registration();
                           }
                         }
                     ).px16().py16(),

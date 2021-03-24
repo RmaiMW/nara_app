@@ -61,11 +61,7 @@ class _CategoryNewsState extends State<CategoryNews> {
         ],
       ),
       body: loading
-          ? Center(
-              child: Container(
-                child: CircularProgressIndicator(),
-              ),
-            )
+          ? Loading()
           : SingleChildScrollView(
               child: Container(
                 padding: EdgeInsets.symmetric(

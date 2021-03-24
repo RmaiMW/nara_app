@@ -1,3 +1,4 @@
+import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -14,6 +15,15 @@ class DatabaseService {
       'name': username,
     });
   }
+  // nara list from snapshot
+  List<Nara> _naraListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc){
+      //print(doc.data);
+      return Nara(
+          username: doc.data['name'] ?? '',
+      );
+    }).toList();
+  }
 
 
   // user data from snapshots
@@ -22,6 +32,12 @@ class DatabaseService {
       uid: uid,
       username: snapshot.data['username']
     );
+  }
+
+  // get Unara stream
+  Stream<List<Nara>> get Unara {
+    return naraCollection.snapshots()
+        .map(_naraListFromSnapshot);
   }
 
   // get user doc stream

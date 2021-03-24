@@ -1,10 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nara_app/models/user.dart';
+import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/home.dart';
 
 import 'package:nara_app/Reg_and_logo/Registration.dart';
 import 'package:nara_app/Reg_and_logo/SignInPage.dart';
 import 'package:nara_app/main.dart';
+import 'package:nara_app/views/loading.dart';
+import 'package:provider/provider.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
@@ -29,7 +33,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   double _currentSliderValue = 20;
   TabController _tabController;
-
+  final _formKey = GlobalKey<FormState>();
   int _selectedIndex=0;
   void initState(){
     super.initState();
@@ -45,146 +49,158 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              //   colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
-                colors: [ Colors.redAccent,Colors.redAccent[100]],
-                begin: FractionalOffset.topLeft,
-                end: FractionalOffset.bottomCenter,
-                stops: [0.0,0.8],
-                tileMode: TileMode.mirror
-            ),
-          ),
-          child: Center(
-            child: SingleChildScrollView(
-              child:  Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children:<Widget> [
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
-                    child: Text("PROFILE",style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold,color: Colors.white)),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    // mainAxisSize: MainAxisSize.min,
-                    children:<Widget> [
-                      HStack( [
-                        GestureDetector(
-                          child: VxBox(child:"Username".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
-                          onTap: (){
-                            //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                          },
-                        ),
-                      ]),
-
-
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CircleAvatar( maxRadius: 50,
-                          backgroundColor: Colors.redAccent,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  HStack( [
-                    GestureDetector(
-                      child: VxBox(child:Row(children:[Text("Saved",style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,/*fontSize: 24*/),), Icon(Icons.playlist_add,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                      },
-                    ),
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 40,right: 20,bottom: 10,top: 10),
-                    child: Container(//margin: EdgeInsets.only(top: 20,left: 1,right: 40,bottom: 20),
-                        color: Colors.white,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Choose size of line\t',style: TextStyle(color: Colors.redAccent,fontWeight:FontWeight.bold),),Slider(activeColor:Colors.redAccent,value: _currentSliderValue,min: 20,max: 40,divisions: 5,label: _currentSliderValue.round().toString(), onChanged: (double s){ setState(() {
-                          _currentSliderValue=s;
-                        });})],)
+    User user = Provider.of<User>(context);
+    return StreamBuilder<UserData>(
+      stream: DatabaseService(uid: user.uid).userData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          UserData userData = snapshot.data;
+          return Form(
+              key: _formKey,
+              child: Scaffold(
+                body: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      //   colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+                        colors: [ Colors.redAccent,Colors.redAccent[100]],
+                        begin: FractionalOffset.topLeft,
+                        end: FractionalOffset.bottomCenter,
+                        stops: [0.0,0.8],
+                        tileMode: TileMode.mirror
                     ),
                   ),
-                  HStack([
-                    GestureDetector(
-                      child: VxBox(child: "Change Password".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
-                      onTap: (){
-                        _showMyDialog();
-                      },
-                    )
-                  ]),
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      HStack([
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            child: VxBox(child: "New Account".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Registration()));
-                            },
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child:  Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        children:<Widget> [
 
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
+                            child: Text("PROFILE",style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold,color: Colors.white)),
                           ),
-                        ),],
-                      ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            // mainAxisSize: MainAxisSize.min,
+                            children:<Widget> [
+                              HStack( [
+                                GestureDetector(
+                                  child: VxBox(child:'${userData.username}'.text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                  onTap: (){
+                                    //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                                  },
+                                ),
+                              ]),
 
-                      HStack([
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: GestureDetector(
-                            child: VxBox(child: "Sign-in".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
-                            },
+
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: CircleAvatar( maxRadius: 50,
+                                  backgroundColor: Colors.redAccent,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),],
-                      ),
 
-                    ],
+                          HStack( [
+                            GestureDetector(
+                              child: VxBox(child:Row(children:[Text("Saved",style: TextStyle(color: Colors.redAccent,fontWeight: FontWeight.bold,/*fontSize: 24*/),), Icon(Icons.playlist_add,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                              },
+                            ),
+                          ]),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 40,right: 20,bottom: 10,top: 10),
+                            child: Container(//margin: EdgeInsets.only(top: 20,left: 1,right: 40,bottom: 20),
+                                color: Colors.white,
+                                child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [Text('Choose size of line\t',style: TextStyle(color: Colors.redAccent,fontWeight:FontWeight.bold),),Slider(activeColor:Colors.redAccent,value: _currentSliderValue,min: 20,max: 40,divisions: 5,label: _currentSliderValue.round().toString(), onChanged: (double s){ setState(() {
+                                  _currentSliderValue=s;
+                                });})],)
+                            ),
+                          ),
+                          HStack([
+                            GestureDetector(
+                              child: VxBox(child: "Change Password".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
+                              onTap: (){
+                                _showMyDialog();
+                              },
+                            )
+                          ]),
+                          Row(mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              HStack([
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    child: VxBox(child: "New Account".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Registration()));
+                                    },
+
+                                  ),
+                                ),],
+                              ),
+
+                              HStack([
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    child: VxBox(child: "Sign-in".text.red500.bold.makeCentered().p16()).red200.roundedLg.make(),
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                                    },
+                                  ),
+                                ),],
+                              ),
+
+                            ],
+                          ),
+                          HStack([
+                            GestureDetector(
+                              child: VxBox(child: "Sign out".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
+                              onTap: (){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                              },
+                            )
+                          ]),
+
+                        ],
+                      ),
+                    ),
                   ),
-                  HStack([
-                    GestureDetector(
-                      child: VxBox(child: "Sign out".text.bold.red500.makeCentered().p16()).red200.roundedLg.make(),
-                      onTap: (){
-                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignIn()));
-                      },
-                    )
-                  ]),
+                ),
 
-                ],
+
+                bottomNavigationBar: BottomNavigationBar(
+                  currentIndex: _selectedIndex,
+                  unselectedFontSize: 14,
+                  selectedFontSize: 13,
+                  selectedItemColor:Colors.blueGrey,
+                  unselectedItemColor:Colors.redAccent,
+                  items: [
+                    BottomNavigationBarItem(icon:Icon(Icons.home),//_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
+                      label:'Home',
+                    ),
+                    BottomNavigationBarItem(icon: Icon(Icons.account_circle),label: 'Profile',),
+                  ],
+                  onTap: _onItemTapped,
+                ),
+
               ),
-            ),
-          ),
-        ),
-
-
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          unselectedFontSize: 14,
-          selectedFontSize: 13,
-          selectedItemColor:Colors.blueGrey,
-          unselectedItemColor:Colors.redAccent,
-          items: [
-            BottomNavigationBarItem(icon:Icon(Icons.home),//_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
-              label:'Home',
-            ),
-            BottomNavigationBarItem(icon: Icon(Icons.account_circle),label: 'Profile',),
-          ],
-          onTap: _onItemTapped,
-        ),
-
-      ),
+        );
+        }
+        else{
+          return Loading();
+        }
+      },
     );
   }
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;

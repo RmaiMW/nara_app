@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:nara_app/Reg_and_logo/Registration.dart';
+import 'package:nara_app/Reg_and_logo/SignInPage.dart';
 
 class Authenticate extends StatefulWidget {
   @override
@@ -15,6 +17,10 @@ class _AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
-   return null;
+    if (showSignIn) {
+      return SignInPage(toggleView:  toggleView);
+    } else {
+      return Registration(toggleView:  toggleView);
+    }
   }
 }

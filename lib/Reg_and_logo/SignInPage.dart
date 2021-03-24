@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nara_app/models/user.dart';
 import 'package:nara_app/views/home.dart';
+import 'package:nara_app/views/wrapper.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CommonLogo.dart';
@@ -8,6 +11,9 @@ import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/views/loading.dart';
 
 class SignInPage extends StatefulWidget {
+
+  final Function toggleView;
+  SignInPage({ this.toggleView });
 
   @override
   _SignInPageState createState() => _SignInPageState();
@@ -90,24 +96,25 @@ class _SignInPageState extends State<SignInPage> {
 
                   ]),
                   HStack([
-                    RaisedButton(
-                        color: Colors.red[500],
-                        child: Text(
-                          'Sign In',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        onPressed: () async {
-                          if(_formKey.currentState.validate()){
-                            setState(() => loading = true);
-                            dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                            if(result == null) {
-                              setState(() {
-                                loading = false;
-                                error = 'Could not sign in with those credentials';
-                              });
+                     RaisedButton(
+                            color: Colors.red[500],
+                            child: Text(
+                              'Sign In',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              if(_formKey.currentState.validate()){
+                                setState(() => loading = true);
+                                dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                                if(result == null) {
+                                  setState(() {
+                                    loading = false;
+                                    error = 'The E-mail you entered or Password are invalid! ';
+                                  });
+                                }
+
+                              }
                             }
-                          }
-                        }
                     ),
                     GestureDetector(
                       child: VxBox(child: "Get Started".text.white.makeCentered().p16()).red500.roundedLg.make(),
@@ -133,7 +140,13 @@ class _SignInPageState extends State<SignInPage> {
                   HStack([
                     VxBox(child:  FaIcon(FontAwesomeIcons.facebookF,color: Colors.white,size: 30,).p20()).blue700.roundedFull.make(),
                     VxBox(child:  FaIcon(FontAwesomeIcons.google,color: Colors.white,size: 25,).p20()).red700.roundedFull.make().p4(),
-                  ])
+                  ]),
+                  SizedBox(height: 12.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 14.0),
+                  ),
+
                 ],
               ),
             ),
