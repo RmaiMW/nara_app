@@ -11,6 +11,6 @@ class UserData {
   final String username;
 
 
-  UserData({ this.uid,  this.username });
+  UserData({ this.uid,  this.username, password });
 
 }

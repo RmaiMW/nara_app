@@ -1,4 +1,4 @@
 class Nara {
   final String username;
-  Nara({ this.username});
+  Nara({ this.username, password});
 }

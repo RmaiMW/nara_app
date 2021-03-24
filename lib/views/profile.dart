@@ -33,30 +33,163 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
-
-  TabController _tabController;
   final _formKey = GlobalKey<FormState>();
-  int _selectedIndex=0;
-  void initState(){
-    super.initState();
-    _tabController = TabController(vsync:this ,length: 2);
-  }
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+  final _formname = GlobalKey<FormState>();
+  final _formpass = GlobalKey<FormState>();
+  String name='';
+  String password='';
+  String currentpassword='';
 
+  bool cp=false;
+  bool np=false;
+
+
+  int _selectedIndex=0;
 
 
 
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
+
+    //change name
+     Future<void> _showMyName() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return Form(key: _formname,
+          child:AlertDialog(
+          title: Text('Change Name',style: TextStyle(color: Colors.redAccent),),
+          content:SingleChildScrollView(
+            child:Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container( margin:EdgeInsets.all(4), width: 200,height: 50,
+                  child:TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Your Name",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
+                        onChanged: (val) => setState(()=>name=val),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
+              onPressed: () async{
+                print(name);
+                if(_formname.currentState.validate()){
+                  await DatabaseService(uid: user.uid).updateUserData(name);
+                }
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+        );
+      },
+    );
+  }
+
+    //change password
+    Future<void> _showMyDialog() async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return Form(key: _formpass,
+            child:AlertDialog(
+            title: Text('Change Password',style: TextStyle(color: Colors.redAccent),),
+            content:SingleChildScrollView(
+              child:Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container( margin:EdgeInsets.all(4), width: 200,height: 50,
+                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "Current Password",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
+                      onChanged: (val)=>val==currentpassword?cp=true:"Current Password",
+                    ),
+                  ),
+                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
+                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "New Password",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                      validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
+                      onChanged: (val) {
+                        setState(() => password = val);
+                      },
+                    ),
+                  ),
+                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
+                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
+                      keyboardType: TextInputType.text,
+                      decoration: InputDecoration(
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintText: "re-enter NewPassword",
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+                      validator: (val) => val == password ? np=true : 'Re-Enter the Password Pleasae!',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
+                onPressed: () async {
+                  if(cp && np && _formpass.currentState.validate()){
+                    print(password);
+                    await DatabaseService(uid: user.uid).updateUserDatap(password);
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          ),
+          );
+        },
+      );
+    }
+
+
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
+
           return Form(
               key: _formKey,
               child: Scaffold(
@@ -93,20 +226,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               HStack( [
                                 GestureDetector(
                                   child: VxBox(child:'${userData.username}'.text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
-                                  onTap: (){
-                                    _showMyName();
-                                    //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                                  },
+                                  onTap: (){ _showMyName();
+                                  print(userData.username);}
                                 ),
                               ]),
+                              SizedBox(height: 20,),
 
 
-                              Padding(
+                            /*  Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: CircleAvatar( maxRadius: 50,
                                   backgroundColor: Colors.redAccent,
                                 ),
-                              ),
+                              ),*/
                             ],
                           ),
 
@@ -199,6 +331,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         }
       },
     );
+
+
   }
   void _onItemTapped(int index) {
     setState(() {
@@ -275,9 +409,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       },
     );
   }
-
   //change name
-  Future<void> _showMyName() async {
+ /* Future<void> _showMyName() async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -289,7 +422,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Container( margin:EdgeInsets.all(4), width: 200,height: 50,
-                  child:TextField(
+                  child:TextFormField(
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
@@ -297,6 +430,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         hintText: "Your Name",
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
+                        onChanged: (val) => setState(()=>name=val),
                   ),
                 ),
               ],
@@ -305,7 +439,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           actions: <Widget>[
             TextButton(
               child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
-              onPressed: () {
+              onPressed: () async{
+                print(name);
+               /* if(_formname.currentState.validate()){
+                  await DatabaseService(uid: user.uid).updateUserData(name);
+                }*/
                 Navigator.of(context).pop();
               },
             ),
@@ -319,5 +457,5 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         );
       },
     );
-  }
+  }*/
 }

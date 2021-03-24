@@ -15,12 +15,18 @@ class DatabaseService {
       'name': username,
     });
   }
+  Future<void> updateUserDatap(String password) async {
+    return await naraCollection.document(uid).setData({
+      'password': password,
+    });
+  }
   // nara list from snapshot
   List<Nara> _naraListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc){
       //print(doc.data);
       return Nara(
           username: doc.data['name'] ?? '',
+        password:doc.data['password']??'',
       );
     }).toList();
   }
@@ -30,7 +36,8 @@ class DatabaseService {
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
       uid: uid,
-      username: snapshot.data['username']
+      username: snapshot.data['username'],
+      password:snapshot.data['password'],
     );
   }
 
