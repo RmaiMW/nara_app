@@ -12,7 +12,7 @@ class DatabaseService {
 
   Future<void> updateUserData(String username) async {
     return await naraCollection.document(uid).setData({
-      'name': username,
+      'username': username,
     });
   }
   Future<void> updateUserDatap(String password) async {

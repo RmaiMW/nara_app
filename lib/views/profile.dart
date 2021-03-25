@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
+import 'package:nara_app/views/changename.dart';
 import 'package:nara_app/views/home.dart';
 
 import 'package:nara_app/Reg_and_logo/Registration.dart';
@@ -52,6 +53,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
 
+    //chamge mame
+    void showname(){
+       showDialog<void>(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context){
+        return AlertDialog(
+          title: Text(''),content: SingleChildScrollView(
+          child:ChangeName(),),
+        );
+      },
+      );
+    }
+      
     //change name
      Future<void> _showMyName() async {
     return showDialog<void>(
@@ -72,15 +87,25 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Your Name",
+                        enabled: true,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                        onChanged: (val) => setState(()=>name=val),
+                      validator: (val)=>val.isEmpty?'Enter Name':null,
+                    onChanged: (val) => setState(()=>name=val),
                   ),
                 ),
               ],
             ),
           ),
           actions: <Widget>[
+            RaisedButton(child: Text('Apply'),color: Colors.redAccent,
+                onPressed: ()async{
+              print(name);
+              if(_formname.currentState.validate()){
+                await DatabaseService(uid: user.uid).updateUserData(name);
+              }
+              Navigator.of(context).pop();
+            }),
             TextButton(
               child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
               onPressed: () async{
@@ -226,8 +251,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               HStack( [
                                 GestureDetector(
                                   child: VxBox(child:'${userData.username}'.text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
-                                  onTap: (){ _showMyName();
-                                  print(userData.username);}
+                                  onTap: ()=> showname(),//_showMyName();
+
                                 ),
                               ]),
                               SizedBox(height: 20,),
@@ -339,7 +364,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       _selectedIndex = index;
       print(_selectedIndex);
       if (_selectedIndex == 0) Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-      else Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
+      else  Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
     });
   }
 
