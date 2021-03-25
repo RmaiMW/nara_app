@@ -25,7 +25,7 @@ class DatabaseService {
     return snapshot.documents.map((doc){
       //print(doc.data);
       return Nara(
-          username: doc.data['name'] ?? '',
+          username: doc.data['username'] ?? '',
         password:doc.data['password']??'',
       );
     }).toList();

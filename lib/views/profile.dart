@@ -14,6 +14,8 @@ import 'package:provider/provider.dart';
 
 import 'package:velocity_x/velocity_x.dart';
 
+import 'changepassword.dart';
+
 
 
 void main(){
@@ -35,14 +37,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
-  final _formname = GlobalKey<FormState>();
-  final _formpass = GlobalKey<FormState>();
-  String name='';
-  String password='';
-  String currentpassword='';
-
-  bool cp=false;
-  bool np=false;
 
 
   int _selectedIndex=0;
@@ -66,147 +60,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       },
       );
     }
-      
-    //change name
-     Future<void> _showMyName() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return Form(key: _formname,
-          child:AlertDialog(
-          title: Text('Change Name',style: TextStyle(color: Colors.redAccent),),
-          content:SingleChildScrollView(
-            child:Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container( margin:EdgeInsets.all(4), width: 200,height: 50,
-                  child:TextFormField(
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        hintText: "Your Name",
-                        enabled: true,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                      validator: (val)=>val.isEmpty?'Enter Name':null,
-                    onChanged: (val) => setState(()=>name=val),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            RaisedButton(child: Text('Apply'),color: Colors.redAccent,
-                onPressed: ()async{
-              print(name);
-              if(_formname.currentState.validate()){
-                await DatabaseService(uid: user.uid).updateUserData(name);
-              }
-              Navigator.of(context).pop();
-            }),
-            TextButton(
-              child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
-              onPressed: () async{
-                print(name);
-                if(_formname.currentState.validate()){
-                  await DatabaseService(uid: user.uid).updateUserData(name);
-                }
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-        );
-      },
-    );
-  }
-
     //change password
-    Future<void> _showMyDialog() async {
-      return showDialog<void>(
+    void showpass(){
+      showDialog<void>(
         context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return Form(key: _formpass,
-            child:AlertDialog(
-            title: Text('Change Password',style: TextStyle(color: Colors.redAccent),),
-            content:SingleChildScrollView(
-              child:Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Container( margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Current Password",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                      onChanged: (val)=>val==currentpassword?cp=true:"Current Password",
-                    ),
-                  ),
-                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "New Password",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                      validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
-                      onChanged: (val) {
-                        setState(() => password = val);
-                      },
-                    ),
-                  ),
-                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "re-enter NewPassword",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                      validator: (val) => val == password ? np=true : 'Re-Enter the Password Pleasae!',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
-                onPressed: () async {
-                  if(cp && np && _formpass.currentState.validate()){
-                    print(password);
-                    await DatabaseService(uid: user.uid).updateUserDatap(password);
-                  }
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          ),
+        barrierDismissible: false,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text(''),content: SingleChildScrollView(
+            child:ChangePass(),),
           );
         },
       );
     }
+
 
 
     return StreamBuilder<UserData>(
@@ -243,11 +110,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             padding: const EdgeInsets.symmetric(vertical: 20,horizontal: 10),
                             child: Text("PROFILE",style: TextStyle(fontSize: 32,fontWeight: FontWeight.bold,color: Colors.white)),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            // crossAxisAlignment: CrossAxisAlignment.center,
-                            // mainAxisSize: MainAxisSize.min,
-                            children:<Widget> [
                               HStack( [
                                 GestureDetector(
                                   child: VxBox(child:'${userData.username}'.text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
@@ -256,16 +118,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 ),
                               ]),
                               SizedBox(height: 20,),
-
-
-                            /*  Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CircleAvatar( maxRadius: 50,
-                                  backgroundColor: Colors.redAccent,
-                                ),
-                              ),*/
-                            ],
-                          ),
 
                           HStack( [
                             GestureDetector(
@@ -279,9 +131,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                           HStack([
                             GestureDetector(
                               child: VxBox(child: "Change Password".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
-                              onTap: (){
-                                _showMyDialog();
-                              },
+                              onTap: ()=> showpass(),
                             )
                           ]),
                          SizedBox(height: 20),
