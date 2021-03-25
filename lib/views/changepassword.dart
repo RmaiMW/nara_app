@@ -85,12 +85,8 @@ class _ChangePassState extends State<ChangePass> {
                         onPressed: () async{
                           if(cp && np &&_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserDatap(_password);
-                            print(_password);
-                            print(snapshot.data.password);
                           }
                           Navigator.of(context).pop();
-                          print(snapshot.data.password);
-                          print(cp);print(np);print(_password);print(_currentpassword);
                         },
                       ),
                       TextButton(
