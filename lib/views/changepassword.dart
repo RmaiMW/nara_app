@@ -48,7 +48,7 @@ class _ChangePassState extends State<ChangePass> {
                           hintText: "Current Password",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                      onChanged: (val)=>val==_currentpassword?cp=true:"Current Password",
+                      onChanged: (val)=> val == _currentpassword? cp=true:"Current Password",
                     ),
                   ),
                   Container(margin:EdgeInsets.all(4), width: 200,height: 50,
@@ -75,7 +75,8 @@ class _ChangePassState extends State<ChangePass> {
                           hintText: "re-enter NewPassword",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                      validator: (val) => val == _password ? np=true : 'Re-Enter the Password Pleasae!',
+                    //  validator: (val) => val == _password ? np=true : 'Re-Enter the Password Pleasae!',
+                      validator: (val) => val == _password ? null : 'Re-Enter the Password Pleasae!',
                     ),
                   ),
                   Row(
@@ -83,8 +84,9 @@ class _ChangePassState extends State<ChangePass> {
                       TextButton(
                         child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
                         onPressed: () async{
-                          if(cp && np &&_formkey.currentState.validate()){
+                          if(cp  && _formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserDatap(_password);
+                          print(cp);print(_currentpassword);
                           }
                           Navigator.of(context).pop();
                         },
