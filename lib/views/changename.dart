@@ -53,11 +53,8 @@ class _ChangeNameState extends State<ChangeName> {
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserData(_name);
-                             print(_name);
-                               print(snapshot.data.username);
+                            Navigator.of(context).pop();
                           }
-                          Navigator.of(context).pop();
-                          print(snapshot.data.username);
                         },
                       ),
                       TextButton(
