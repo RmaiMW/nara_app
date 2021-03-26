@@ -15,7 +15,7 @@ class _ChangePassState extends State<ChangePass> {
   final _formkey=GlobalKey<FormState>();
 
   String _password='';
-  String _currentpassword='';
+
 
 
   @override
