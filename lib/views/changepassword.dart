@@ -49,8 +49,7 @@ class _ChangePassState extends State<ChangePass> {
                       onChanged: (val)=> val == _currentpassword? cp=true:"Current Password",
                     ),
                   ),*/
-                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
+                   TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           filled: true,
@@ -63,9 +62,9 @@ class _ChangePassState extends State<ChangePass> {
                         setState(() => _password = val);
                       },
                     ),
-                  ),
-                  Container(margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
+
+                  SizedBox(height: 20,),
+                  TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           filled: true,
@@ -76,7 +75,7 @@ class _ChangePassState extends State<ChangePass> {
                     //  validator: (val) => val == _password ? np=true : 'Re-Enter the Password Pleasae!',
                       validator: (val) => val == _password ? null : 'Re-Enter the Password Pleasae!',
                     ),
-                  ),
+
                   Row(
                     children: [
                       TextButton(
@@ -84,8 +83,9 @@ class _ChangePassState extends State<ChangePass> {
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserDatap(_password);
+                            Navigator.of(context).pop();
                           }
-                          Navigator.of(context).pop();
+
                         },
                       ),
                       TextButton(
