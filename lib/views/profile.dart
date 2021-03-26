@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nara_app/Reg_and_logo/SignInPage.dart';
 import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/auth.dart';
@@ -34,13 +36,15 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
   final _formKey = GlobalKey<FormState>();
   int _selectedIndex=0;
-
-
+  bool loading = false;
   final AuthService _auth = AuthService();
+
   @override
   Widget build(BuildContext context) {
-    User user = Provider.of<User>(context);
 
+
+    User user = Provider.of<User>(context);
+  //UserData userData=UserData();
     //chamge mame
     void showname(){
       showDialog<void>(
@@ -71,9 +75,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
 
     return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).userData,
+
+        stream: DatabaseService(uid:user.uid).userData,
         builder: (context, snapshot) {
-          if (snapshot.hasData) {
+         if (snapshot.hasData) {
             UserData userData = snapshot.data;
             return Form(
               key: _formKey,
@@ -136,8 +141,9 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                               GestureDetector(
                                                 child:  VxBox(child: "Sign out".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
                                                 onTap: () async {
-                                                  await _auth.signOut();
-                                                //  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                                                   await _auth.signOut();
+
+                                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
                                                 },
                                               )
                                             ]),

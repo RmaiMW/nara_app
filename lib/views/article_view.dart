@@ -16,9 +16,23 @@ class _ArticleViewState extends State<ArticleView> {
       Completer<WebViewController>();
   double _currentSliderValue = 20;
   bool _fav =false;
+  bool _like =false;
+  bool _dis=false;
   void favorite() {
     setState(() {
       _fav = !_fav;
+    });
+  }
+  void like() {
+    setState(() {
+      _like = !_like;
+      if(_like) _dis=false;
+    });
+  }
+  void dis() {
+    setState(() {
+      _dis = !_dis;
+      if(_dis) _like=false;
     });
   }
   @override
@@ -29,12 +43,27 @@ class _ArticleViewState extends State<ArticleView> {
         backgroundColor: Colors.redAccent,
         elevation: 0.0,
         actions: <Widget>[Builder( builder: (context){return IconButton(icon: Icon(Icons.format_size_sharp,color: Colors.white,), onPressed: (){Scaffold.of(context).openEndDrawer();},);},)],
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        title:SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+         child:Row(
+          mainAxisSize: MainAxisSize.max,
+        //  crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
+            Row( crossAxisAlignment: CrossAxisAlignment.start,
+              children:[
+             FlatButton.icon(onPressed:(){ }, icon:IconButton(icon:Icon(_like?Icons.thumb_up_alt:Icons.thumb_up_alt_outlined,color: Colors.white), onPressed: () { like(); },), label: Text('')),
+            FlatButton.icon(onPressed:(){ }, icon:IconButton(icon:Icon(_dis?Icons.thumb_down_alt:Icons.thumb_down_outlined,color: Colors.white), onPressed: () { dis(); },), label: Text('')),
+            ],
+           ),
+            SizedBox(height: 40,),
+            Row(crossAxisAlignment: CrossAxisAlignment.end,
+              children:[
             FlatButton.icon(onPressed:(){ }, icon:IconButton(icon:Icon(_fav?Icons.favorite:Icons.favorite_border,color: Colors.white), onPressed: () { favorite(); },), label: Text('')),
-            FlatButton.icon(onPressed: (){}, icon: IconButton(icon:Icon(Icons.public,color: Colors.white,),onPressed: (){},), label: Text('')),
-           /* Text('NARA'),
+                FlatButton.icon(onPressed: (){}, icon: IconButton(icon:Icon(Icons.public,color: Colors.white,),onPressed: (){},), label: Text('')),
+              ],
+            ),
+
+              /* Text('NARA'),
             Text(
               ' News',
               style: TextStyle(
@@ -42,6 +71,7 @@ class _ArticleViewState extends State<ArticleView> {
               ),
             ),*/
           ],
+        ),
         ),
       ),
       endDrawer: Padding(
