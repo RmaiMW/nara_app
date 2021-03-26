@@ -4,28 +4,11 @@ import 'package:velocity_x/velocity_x.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:nara_app/Reg_and_logo/SignInPage.dart';
 import 'package:nara_app/Reg_and_logo/Registration.dart';
-/*
-void main() {
-  runApp(MyApp());
-}
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
 
-        primaryColor: Colors.black,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: SignIn(),
-    );
-  }
-}
-*/
 class SignIn extends StatefulWidget {
+
+  final Function toggleView;
+  SignIn({ this.toggleView });
   @override
   _SignInState createState() => _SignInState();
 }

@@ -1,3 +1,4 @@
+import 'package:nara_app/views/Entraance.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class MyApp extends StatelessWidget {
       value: AuthService().user,
       child: MaterialApp(
         home: Wrapper(),
+        //home: SignIn(),
       ),
     );
   }

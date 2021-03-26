@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:nara_app/models/user.dart';
+import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/home.dart';
+import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'CommonLogo.dart';
 import 'SignInPage.dart';
@@ -24,10 +27,12 @@ class _RegistrationState extends State<Registration> {
   // text field state
   String email = '';
   String password = '';
+  String username = '';
 
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<User>(context);
     return loading ? Loading(): SafeArea(
       child: Scaffold(
         body: Container(
@@ -67,6 +72,21 @@ class _RegistrationState extends State<Registration> {
                     validator: (val) => val.isEmpty ? 'Enter an email' : null,
                     onChanged: (val) {
                       setState(() => email = val);
+                    },
+
+                  ).p4().px24(),
+                  TextFormField(
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: "Username",
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(10.0)))
+                    ),
+                    validator: (val) => val.isEmpty ? 'Enter a Username' : null,
+                    onChanged: (val) {
+                      setState(() => username = val);
                     },
 
                   ).p4().px24(),
@@ -116,8 +136,7 @@ class _RegistrationState extends State<Registration> {
                         onPressed: () async {
                           if(_formKey.currentState.validate()){
                             setState(() => loading = true);
-                            dynamic result = await _auth.registerWithEmailAndPassword(email, password);
-
+                            dynamic result = await _auth.registerWithEmailAndPassword(email, password,username);
                             if(result == null) {
                               setState(() {
                                 loading = false;
@@ -125,6 +144,13 @@ class _RegistrationState extends State<Registration> {
                               }
                               );
                             }
+                            await _auth.signInWithEmailAndPassword(email, password);
+                            //DatabaseService(uid: user.uid).userData;
+                            //UserData userData = snapshot.data;
+
+                            //userData.username = username;
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+
                           }
                         }
                     ).px16().py16(),

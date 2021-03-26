@@ -1,5 +1,6 @@
 import  'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
+import 'package:nara_app/views/geustHome.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
@@ -88,20 +89,34 @@ class _SignInPageState extends State<SignInPage> {
                   ).p4().px24(),
 
                   HStack([
-                    Checkbox(
-                      value: checked, onChanged: (bool value) { checked=value ;},
+                      Container(
+                          child: Row(
+                              children: <Widget>[
+                              Text('Does not have account? Sign in as a '),
+                              FlatButton(
+                              textColor: Colors.blue,
+                                child: Text('Guest', style: TextStyle(fontSize: 20),),
+                                  onPressed: () async {
+                                        setState(() => loading = true);
+                                        dynamic result = await submitAnon();
+                                        if (result == null) {
+                                          setState(() {
+                                            loading = false;
+                                            error =
+                                            'Something went Wrong! ';
+                                          });
+                                        }
 
-                    ),
-                    "Remember Me".text.make().py16()
+             //signup screen
+                                 },),
+                      ]),
+           ),
 
                   ]),
                   HStack([
                      RaisedButton(
                             color: Colors.red[500],
-                            child: Text(
-                              'Sign In',
-                              style: TextStyle(color: Colors.white),
-                            ),
+                            child: VxBox(child: "Get Started".text.white.makeCentered().p16()).make(),
                             onPressed: () async {
                               if(_formKey.currentState.validate()){
                                 setState(() => loading = true);
@@ -116,16 +131,6 @@ class _SignInPageState extends State<SignInPage> {
                               }
                             }
                     ),
-                    GestureDetector(
-                      child: VxBox(child: "Get Started".text.white.makeCentered().p16()).red500.roundedLg.make(),
-                      onTap: (){
-                        print("Sign In");
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
-                      },
-
-
-                    ),
-
 
                   ]),
                   GestureDetector(
@@ -162,6 +167,15 @@ class _SignInPageState extends State<SignInPage> {
               color: Colors.redAccent,
               child: Center(child: "Create a new Account..! Sign Up".text.white.makeCentered())),
         ),
+      ),
+    );
+  }
+  Future submitAnon() async {
+    await _auth.signInAnon();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Wrapper(),
       ),
     );
   }

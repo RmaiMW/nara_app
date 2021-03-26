@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nara_app/Reg_and_logo/Registration.dart';
 import 'package:nara_app/Reg_and_logo/SignInPage.dart';
+import 'package:nara_app/views/Entraance.dart';
 
 class Authenticate extends StatefulWidget {
+
   @override
   _AuthenticateState createState() => _AuthenticateState();
 }
@@ -10,6 +12,7 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
 
   bool showSignIn = true;
+
   void toggleView(){
     //print(showSignIn.toString());
     setState(() => showSignIn = !showSignIn);
