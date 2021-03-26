@@ -30,7 +30,6 @@ class DatabaseService {
       //print(doc.data);
       return Nara(
           username: doc.data['username'] ?? '',
-        password:doc.data['password']??'',
       );
     }).toList();
   }
@@ -41,7 +40,6 @@ class DatabaseService {
     return UserData(
       uid: uid,
       username: snapshot.data['username'],
-      password:snapshot.data['password'],
     );
   }
 

@@ -26,7 +26,7 @@ class _ChangePassState extends State<ChangePass> {
         builder: (context, snapshot) {
           if(snapshot.hasData){
             UserData userData = snapshot.data;
-            _currentpassword=userData.password;
+
             return Form(
               key: _formkey,
               child: Column(
