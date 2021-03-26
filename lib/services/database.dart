@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,9 +17,12 @@ class DatabaseService {
     });
   }
   Future<void> updateUserDatap(String password) async {
-    return await naraCollection.document(uid).setData({
-      'password': password,
-    });
+    FirebaseUser user =await FirebaseAuth.instance.currentUser();
+    user.updatePassword(password).then((_){print("Successfully changed password");
+    }).catchError((error){print("Password can't be changed" + error.toString());});
+  //  return await naraCollection.document(uid).setData({
+   //   'password': password,
+  //  });
   }
   // nara list from snapshot
   List<Nara> _naraListFromSnapshot(QuerySnapshot snapshot) {

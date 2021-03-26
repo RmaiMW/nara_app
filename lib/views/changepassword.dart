@@ -17,8 +17,6 @@ class _ChangePassState extends State<ChangePass> {
   String _password='';
   String _currentpassword='';
 
-  bool cp=false;
-  bool np=false;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class _ChangePassState extends State<ChangePass> {
                     style: TextStyle(fontSize: 18.0,color: Colors.redAccent),
                   ),
                   SizedBox(height: 20,),
-                  Container( margin:EdgeInsets.all(4), width: 200,height: 50,
+                  /*Container( margin:EdgeInsets.all(4), width: 200,height: 50,
                     child:TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -50,7 +48,7 @@ class _ChangePassState extends State<ChangePass> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
                       onChanged: (val)=> val == _currentpassword? cp=true:"Current Password",
                     ),
-                  ),
+                  ),*/
                   Container(margin:EdgeInsets.all(4), width: 200,height: 50,
                     child:TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
@@ -84,9 +82,8 @@ class _ChangePassState extends State<ChangePass> {
                       TextButton(
                         child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
                         onPressed: () async{
-                          if(cp  && _formkey.currentState.validate()){
+                          if(_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserDatap(_password);
-                          print(cp);print(_currentpassword);
                           }
                           Navigator.of(context).pop();
                         },
