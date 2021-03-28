@@ -9,6 +9,7 @@ import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
 import 'package:provider/provider.dart';
+import 'geustprofile.dart';
 import 'loading.dart';
 import 'profile.dart';
 
@@ -74,17 +75,9 @@ class _HomeState extends State<Home> {
           ),
             actions: <Widget>[
 
-              FlatButton.icon(
-                  icon: Icon(Icons.person),
-                  label: Text('logout'),
-                  onPressed: () async {
-                    await _auth.signOut();
-                  },
-                ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: FlatButton.icon(onPressed:show,//(){ setState(() {
-                    // _isVisible = !_isVisible;});},
+                  child: FlatButton.icon(onPressed:show,
                     icon: Icon(Icons.search,color: Colors.white,),
 
                     label:Text(''),),
@@ -109,11 +102,6 @@ class _HomeState extends State<Home> {
 
         body: loading
             ? Loading()
-        //Center(
-        //      child: Container(
-        //      child: CircularProgressIndicator(),
-        //  ),
-        //)
             : SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(
@@ -167,9 +155,9 @@ class _HomeState extends State<Home> {
       _selectedIndex = index;
       print(_selectedIndex);
       if (_selectedIndex == 0) Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
-      else Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
-      //else Navigator.push(context,MaterialPageRoute(builder: (context)=>geustProfile()));
-
+      else{
+        Navigator.push(context,MaterialPageRoute(builder: (context)=>Profile()));
+      }
     });
   }
 

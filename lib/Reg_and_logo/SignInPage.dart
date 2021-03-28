@@ -15,7 +15,6 @@ class SignInPage extends StatefulWidget {
 
   final Function toggleView;
   SignInPage({ this.toggleView });
-
   @override
   _SignInPageState createState() => _SignInPageState();
 }
@@ -26,7 +25,6 @@ class _SignInPageState extends State<SignInPage> {
   final _formKey = GlobalKey<FormState>();
   String error = '';
   bool loading = false;
-
   // text field state
   String email = '';
   String password = '';
@@ -96,19 +94,12 @@ class _SignInPageState extends State<SignInPage> {
                               FlatButton(
                               textColor: Colors.blue,
                                 child: Text('Guest', style: TextStyle(fontSize: 20),),
-                                  onPressed: () async {
+                                  onPressed: () {
                                         setState(() => loading = true);
-                                        dynamic result = await submitAnon();
-                                        if (result == null) {
-                                          setState(() {
-                                            loading = false;
-                                            error =
-                                            'Something went Wrong! ';
-                                          });
+                                        Navigator.push(context, MaterialPageRoute(builder: (
+                                            context) => geustHome()));
                                         }
-
-             //signup screen
-                                 },),
+                                 ),
                       ]),
            ),
 
@@ -172,11 +163,11 @@ class _SignInPageState extends State<SignInPage> {
   }
   Future submitAnon() async {
     await _auth.signInAnon();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Wrapper(),
-      ),
-    );
+    //Navigator.push(
+    //  context,
+    //  MaterialPageRoute(
+     //   builder: (context) => Wrapper(),
+     // ),
+    //);
   }
 }

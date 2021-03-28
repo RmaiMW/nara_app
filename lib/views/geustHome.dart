@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nara_app/helper/data.dart';
 import 'package:nara_app/helper/news.dart';
-import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/models/category_model.dart';
-import 'package:nara_app/services/auth.dart';
-import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
-import 'package:nara_app/views/wrapper.dart';
-import 'package:provider/provider.dart';
 import 'geustprofile.dart';
 import 'loading.dart';
 import 'profile.dart';
@@ -22,16 +17,8 @@ class geustHome extends StatefulWidget {
 class _geustHomeState extends State<geustHome> {
   List<CategoryModel> categories = new List<CategoryModel>();
   List<ArticleModel> articles = new List<ArticleModel>();
-  final AuthService _auth = AuthService();
   bool loading = true;
 
-  bool _isVisible = false;
-
-  void show() {
-    setState(() {
-      _isVisible = !_isVisible;
-    });
-  }
 
   @override
   void initState() {
@@ -52,115 +39,76 @@ class _geustHomeState extends State<geustHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Colors.redAccent,
-          elevation: 0.0,
-          leading: Builder( builder: (context){return IconButton(icon: Icon(Icons.menu,color: Colors.redAccent,), onPressed: (){Scaffold.of(context).openDrawer();},);},),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
+            appBar: AppBar(
+              centerTitle: true,
+              backgroundColor: Colors.redAccent,
+              elevation: 0.0,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
 
-              Text('NARA'),
-              Text(
-                ' News',
-                style: TextStyle(
-                  color: Colors.blueGrey,
+                  Text('NARA'),
+                  Text(
+                    ' News',
+                    style: TextStyle(
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                ],
+              ),
+
+            ),
+
+            body: loading
+                ? Loading()
+                : SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                child: Column(
+                  children: <Widget>[
+
+                    /// Categories
+                    CategoryList(
+                      categories: categories,
+                    ),
+
+                    /// Blogs
+                    ArticleList(
+                      articles: articles,
+                    ),
+                  ],
                 ),
               ),
-            ],
-          ),
-          actions: <Widget>[
-
-
-            Align(
-              alignment: Alignment.centerLeft,
-              child: FlatButton.icon(onPressed:show,//(){ setState(() {
-                // _isVisible = !_isVisible;});},
-                icon: Icon(Icons.search,color: Colors.white,),
-
-                label:Text(''),),
             ),
 
-
-            Visibility( visible: _isVisible,
-                child:Expanded(child: TextField(
-                  keyboardType: TextInputType.text,
-                  cursorColor: Colors.white,
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      focusColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                ))
-            )
-          ],
-
-        ),
-
-        body: loading
-            ? Loading()
-        //Center(
-        //      child: Container(
-        //      child: CircularProgressIndicator(),
-        //  ),
-        //)
-            : SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 16,
-            ),
-            child: Column(
-              children: <Widget>[
-
-                /// Categories
-                CategoryList(
-                  categories: categories,
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _selectedIndex,
+              selectedFontSize: 14,
+              unselectedFontSize: 13,
+              unselectedItemColor: Colors.blueGrey,
+              selectedItemColor: Colors.redAccent,
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home),
+                  //_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
+                  label: 'Home',
                 ),
-
-                /// Blogs
-                ArticleList(
-                  articles: articles,
-                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.account_circle), label: 'Profile',),
               ],
+              onTap: _onItemTapped,
             ),
-          ),
-        ),
-
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          selectedFontSize: 14,
-          unselectedFontSize: 13,
-          unselectedItemColor: Colors.blueGrey,
-          selectedItemColor: Colors.redAccent,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home),
-              //_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle), label: 'Profile',),
-          ],
-          onTap: _onItemTapped,
-        ),
-      );
+          );
   }
-
-
-
   int _selectedIndex = 0;
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
       print(_selectedIndex);
       if (_selectedIndex == 0) Navigator.push(context, MaterialPageRoute(builder: (context) => geustHome()));
       else Navigator.push(context,MaterialPageRoute(builder: (context)=>geustProfile()));
-      //else Navigator.push(context,MaterialPageRoute(builder: (context)=>geustProfile()));
-
     });
   }
 }

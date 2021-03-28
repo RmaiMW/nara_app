@@ -8,6 +8,7 @@ import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/loading.dart';
+import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -143,7 +144,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                                 onTap: () async {
                                                    await _auth.signOut();
 
-                                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>SignInPage()));
+                                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Wrapper()));
                                                 },
                                               )
                                             ]),
@@ -259,6 +260,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       },
     );
   }
+
   //change name
 
 }
