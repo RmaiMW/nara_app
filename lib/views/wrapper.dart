@@ -7,6 +7,7 @@ import 'home.dart';
 import 'package:nara_app/authenticate/authenticate.dart';
 import 'package:provider/provider.dart';
 
+
 class Wrapper extends StatelessWidget {
   bool anonymous = false;
   @override

@@ -34,26 +34,14 @@ class _ChangePassState extends State<ChangePass> {
                 children: <Widget>[
                   Text(
                     'Change Your Password',
-                    style: TextStyle(fontSize: 18.0,color: Colors.redAccent),
+                    style: TextStyle(fontSize: 18.0,),
                   ),
                   SizedBox(height: 20,),
-                  /*Container( margin:EdgeInsets.all(4), width: 200,height: 50,
-                    child:TextFormField(obscureText: true, obscuringCharacter: '*',
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: "Current Password",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                      onChanged: (val)=> val == _currentpassword? cp=true:"Current Password",
-                    ),
-                  ),*/
                    TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.white,
+                       //   fillColor: Colors.white,
                           hintText: "New Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)))),
@@ -68,7 +56,7 @@ class _ChangePassState extends State<ChangePass> {
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.white,
+                     //     fillColor: Colors.white,
                           hintText: "re-enter NewPassword",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(10.0)))),
@@ -79,7 +67,7 @@ class _ChangePassState extends State<ChangePass> {
                   Row(
                     children: [
                       TextButton(
-                        child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
+                        child: Text('Apply',style: TextStyle(color: Theme.of(context).primaryColor),),
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserDatap(_password);
@@ -89,7 +77,7 @@ class _ChangePassState extends State<ChangePass> {
                         },
                       ),
                       TextButton(
-                        child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+                        child: Text('Cancel',style: TextStyle(color: Theme.of(context).primaryColor),),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

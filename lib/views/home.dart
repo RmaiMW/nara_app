@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'geustprofile.dart';
 import 'loading.dart';
 import 'profile.dart';
+import 'search.dart';
+
 
 class Home extends StatefulWidget {
 
@@ -55,11 +57,12 @@ class _HomeState extends State<Home> {
     return StreamProvider<List<Nara>>.value(
       value: DatabaseService().Unara,
       child: Scaffold(
-        appBar: AppBar(
+        appBar:
+        AppBar(
           centerTitle: true,
-          backgroundColor: Colors.redAccent,
+        //  backgroundColor:Theme.of(context).primaryColor,// Colors.redAccent,
           elevation: 0.0,
-          leading: Builder( builder: (context){return IconButton(icon: Icon(Icons.menu,color: Colors.redAccent,), onPressed: (){Scaffold.of(context).openDrawer();},);},),
+          leading: Builder( builder: (context){return IconButton(icon: Icon(Icons.menu,color: Theme.of(context).primaryColor), onPressed: (){Scaffold.of(context).openDrawer();},);},),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -74,14 +77,21 @@ class _HomeState extends State<Home> {
             ],
           ),
             actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () => showSearch(
+                  context: context,
+                  delegate: Search(),
+                ),
+              ),
 
-              Align(
+            /*  Align(
                   alignment: Alignment.centerLeft,
                   child: FlatButton.icon(onPressed:show,
                     icon: Icon(Icons.search,color: Colors.white,),
 
                     label:Text(''),),
-              ),
+              ),*/
 
 
               Visibility( visible: _isVisible,
@@ -128,8 +138,8 @@ class _HomeState extends State<Home> {
           currentIndex: _selectedIndex,
           selectedFontSize: 14,
           unselectedFontSize: 13,
-          unselectedItemColor: Colors.blueGrey,
-          selectedItemColor: Colors.redAccent,
+          unselectedItemColor: Colors.grey[500],
+          selectedItemColor: Theme.of(context).primaryColor,
           items: [
             BottomNavigationBarItem(icon: Icon(Icons.home),
               //_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),

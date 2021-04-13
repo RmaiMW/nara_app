@@ -30,14 +30,14 @@ class _ChangeNameState extends State<ChangeName> {
                 children: <Widget>[
                   Text(
                     'Change Your Name',
-                    style: TextStyle(fontSize: 18.0,color: Colors.redAccent),
+                    style: TextStyle(fontSize: 18.0,),
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
                     initialValue: userData.username,
                     decoration: InputDecoration(
                         filled: true,
-                        fillColor: Colors.white,
+                    //    fillColor: Colors.white,
                         hintText: "Your Name",
                         enabled: true,
                         border: OutlineInputBorder(
@@ -49,7 +49,7 @@ class _ChangeNameState extends State<ChangeName> {
                   Row(
                     children: [
                       TextButton(
-                        child: Text('Apply',style: TextStyle(color: Colors.redAccent),),
+                        child: Text('Apply',style: TextStyle(color:Theme.of(context).primaryColor),),
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
                             await DatabaseService(uid: user.uid).updateUserData(_name);
@@ -58,7 +58,7 @@ class _ChangeNameState extends State<ChangeName> {
                         },
                       ),
                       TextButton(
-                        child: Text('Cancel',style: TextStyle(color: Colors.redAccent),),
+                        child: Text('Cancel',style: TextStyle(color:Theme.of(context).primaryColor),),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

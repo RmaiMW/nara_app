@@ -40,7 +40,7 @@ class _ArticleViewState extends State<ArticleView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.redAccent,
+       // backgroundColor: Colors.redAccent,
         elevation: 0.0,
         actions: <Widget>[Builder( builder: (context){return IconButton(icon: Icon(Icons.format_size_sharp,color: Colors.white,), onPressed: (){Scaffold.of(context).openEndDrawer();},);},)],
         title:SingleChildScrollView(
