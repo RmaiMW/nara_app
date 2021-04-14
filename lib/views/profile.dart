@@ -1,16 +1,14 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
-import 'package:nara_app/views/changetheme.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/loading.dart';
-
 import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
+
 
 import 'changename.dart';
 import 'changepassword.dart';
@@ -39,7 +37,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   int _selectedIndex=0;
   bool loading = false;
   final AuthService _auth = AuthService();
-  bool isSwitched = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -73,21 +71,6 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
       );
     }
 
-    void changetheme(){
-      showDialog<void>(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context){
-          return AlertDialog(
-            title: Text('Change Theme'),content: SingleChildScrollView(
-             child:ChangeTheme(),
-             ),
-          );
-        },
-      );
-    }
-
-
 
 
     return StreamBuilder<UserData>(
@@ -99,14 +82,19 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             return Form(
               key: _formKey,
                     child: Scaffold(
-                      appBar: AppBar(
-                        title: Text('Profile'),
-                        centerTitle: true,
-                      ),
                               body: Container(
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height,
-
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                        //   colors: [const Color(0XFFF50057),const Color(0XFFF44336)],
+                                          colors: [ Colors.redAccent,Colors.redAccent[100]],
+                                          begin: FractionalOffset.topLeft,
+                                          end: FractionalOffset.bottomCenter,
+                                          stops: [0.0,0.8],
+                                          tileMode: TileMode.mirror
+                                      ),
+                                    ),
                                     child: Center(
                                       child: SingleChildScrollView(
                                         child:  Column(
@@ -126,11 +114,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                                                 HStack( [
                                                   GestureDetector(
-                                                    child:Container(
-                                                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                        color: Theme.of(context).primaryColor,),
-                                                      child:'${userData.username}'.text.bold.makeCentered().p16(),
-                                                    ),
+                                                    child: VxBox(child:'${userData.username}'.text.red600.bold.makeCentered().p16()).red200.roundedLg.make(),
                                                     onTap: ()=> showname(),
                                                   ),
                                                 ]),
@@ -138,49 +122,25 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                                             HStack( [
                                               GestureDetector(
-                                                child:Container(
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                  color: Theme.of(context).primaryColor,),
-                                                     child:Row(children:["Favorite".text.bold.makeCentered(), Icon(Icons.favorite),],).p16()
-                                                    ),
+                                                child: VxBox(child:Row(children:["Favorite".text.bold.red600.makeCentered(), Icon(Icons.favorite,color: Colors.redAccent,),],).p16()).red200.roundedLg.make(),
                                                 onTap: (){
                                                 //  Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
                                                 },
                                               ),
                                             ]),
                                             SizedBox(height: 20,),
-                                            HStack( [
-                                              GestureDetector(
-                                                child:Container(
-                                                    decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                      color: Theme.of(context).primaryColor,),
-                                                    child:"Change Theme".text.bold.makeCentered().p16(),
-                                                ),
-                                                onTap: ()=> changetheme(),
-                                              ),
-                                            ]),
-                                            SizedBox(height: 20,),
                                             HStack([
                                               GestureDetector(
-                                                child:Container(
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                    color: Theme.of(context).primaryColor,),
-                                                  child:"Change Password".text.bold.makeCentered().p16(),
-                                                ),
+                                                child: VxBox(child: "Change Password".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
                                                 onTap: ()=>showpass(),
                                               )
                                             ]),
                                            SizedBox(height: 20),
                                             HStack([
                                               GestureDetector(
-                                                child:Container(
-                                                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(20)),
-                                                    color: Theme.of(context).primaryColor,),
-                                                  child:"Sign Out".text.bold.makeCentered().p16(),
-                                                ),
+                                                child:  VxBox(child: "Sign out".text.bold.red600.makeCentered().p16()).red200.roundedLg.make(),
                                                 onTap: () async {
-                                                   await _auth.signOut();
-
+                                                   await _auth.signout();
                                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Wrapper()));
                                                 },
                                               )
@@ -200,8 +160,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 currentIndex: _selectedIndex,
                                 unselectedFontSize: 14,
                                 selectedFontSize: 13,
-                                selectedItemColor:Colors.grey[700],
-                                unselectedItemColor:Theme.of(context).primaryColor,
+                                selectedItemColor:Colors.blueGrey,
+                                unselectedItemColor:Colors.redAccent,
                                 items: [
                                   BottomNavigationBarItem(icon:Icon(Icons.home),//_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
                                     label:'Home',

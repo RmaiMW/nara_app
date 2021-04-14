@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nara_app/Reg_and_logo/Registration.dart';
 import 'package:nara_app/Reg_and_logo/SignInPage.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -59,7 +60,7 @@ class geustProfile extends StatelessWidget {
                             .make(),
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => Wrapper()));
+                              builder: (context) => SignInPage()));
                         },
                       )
                     ]),
@@ -72,7 +73,8 @@ class geustProfile extends StatelessWidget {
 
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => Wrapper()));
+                              builder: (context) => Registration()));
+                              //builder: (context) => Wrapper()));
                         },
                       )
                     ]),

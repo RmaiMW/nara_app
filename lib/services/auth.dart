@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:nara_app/models/user.dart';
+import 'package:nara_app/views/wrapper.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,8 +18,8 @@ class AuthService {
   // auth change user stream
   Stream<User> get user {
     return _auth.onAuthStateChanged
-      //.map((FirebaseUser user) => _userFromFirebaseUser(user));
-      .map(_userFromFirebaseUser);
+      .map((FirebaseUser user) => _userFromFirebaseUser(user));
+     // .map(_userFromFirebaseUser);
   }
 
   // sign in anon
@@ -62,13 +64,14 @@ class AuthService {
   }
 
   // sign out
-  Future signOut() async {
+  Future signout()  async {
     try {
-      return await _auth.signOut();
+      return  await _auth.signOut();
     } catch (error) {
       print(error.toString());
       return null;
     }
   }
+
 
 }

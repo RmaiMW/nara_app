@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
-import 'package:nara_app/views/home.dart';
+import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'CommonLogo.dart';
@@ -25,9 +25,9 @@ class _RegistrationState extends State<Registration> {
   bool loading = false;
 
   // text field state
-  String email = '';
-  String password = '';
-  String username = '';
+  TextEditingController email = TextEditingController();
+  TextEditingController password =TextEditingController();
+  TextEditingController username = TextEditingController();
 
 
   @override
@@ -61,6 +61,7 @@ class _RegistrationState extends State<Registration> {
                   "CREATE YOUR ACCOUNT".text.size(22).yellow100.make(),
 
                   TextFormField(
+                    controller: email,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
@@ -71,11 +72,12 @@ class _RegistrationState extends State<Registration> {
                     ),
                     validator: (val) => val.isEmpty ? 'Enter an email' : null,
                     onChanged: (val) {
-                      setState(() => email = val);
+                      setState(() => email = val as TextEditingController);
                     },
 
                   ).p4().px24(),
                   TextFormField(
+                    controller: username,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
@@ -86,11 +88,13 @@ class _RegistrationState extends State<Registration> {
                     ),
                     validator: (val) => val.isEmpty ? 'Enter a Username' : null,
                     onChanged: (val) {
-                      setState(() => username = val);
+                      setState(() => username = val as TextEditingController);
+
                     },
 
                   ).p4().px24(),
                   TextFormField(
+                    controller: password,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
@@ -102,7 +106,7 @@ class _RegistrationState extends State<Registration> {
                     obscureText: true,
                     validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
                     onChanged: (val) {
-                      setState(() => password = val);
+                      setState(() => password = val as TextEditingController);
                     },
                   ).p4().px24(),
                   TextFormField(
@@ -114,7 +118,7 @@ class _RegistrationState extends State<Registration> {
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
                       obscureText: true,
-                      validator: (val) => val == password ? null : 'Re-Enter the Password Pleasae!',
+                      validator: (val) => val == password.text ? null : 'Re-Enter the Password Pleasae!',
                   ).p4().px24(),
                   HStack([
                     Checkbox(
@@ -136,7 +140,7 @@ class _RegistrationState extends State<Registration> {
                         onPressed: () async {
                           if(_formKey.currentState.validate()){
                             setState(() => loading = true);
-                            dynamic result = await _auth.registerWithEmailAndPassword(email, password,username);
+                            dynamic result = await _auth.registerWithEmailAndPassword(email.text, password.text,username.text);
                             if(result == null) {
                               setState(() {
                                 loading = false;
@@ -144,7 +148,7 @@ class _RegistrationState extends State<Registration> {
                               }
                               );
                             }
-                            await _auth.signInWithEmailAndPassword(email, password);
+                            await _auth.signInWithEmailAndPassword(email.text, password.text);
                             //DatabaseService(uid: user.uid).userData;
                             //UserData userData = snapshot.data;
 

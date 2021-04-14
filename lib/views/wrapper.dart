@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 class Wrapper extends StatelessWidget {
   bool anonymous = false;
+
   @override
   Widget build(BuildContext context) {
 

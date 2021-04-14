@@ -41,6 +41,7 @@ class _geustHomeState extends State<geustHome> {
     return Scaffold(
             appBar: AppBar(
               centerTitle: true,
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.redAccent,
               elevation: 0.0,
               title: Row(

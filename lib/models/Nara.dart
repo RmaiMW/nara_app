@@ -1,4 +1,6 @@
 class Nara {
   final String username;
-  Nara({ this.username});
+  final List<String> URLs;
+  final String iconImage;
+  Nara({ this.username,this.URLs, this.iconImage });
 }

@@ -24,6 +24,23 @@ class DatabaseService {
    //   'password': password,
   //  });
   }
+  /*
+  Future<void> updateUserURLData(List<String> URLs) async {
+    FirebaseUser user =await FirebaseAuth.instance.currentUser();
+    user.updateProfile(URLs: URLs).then((_){print("Successfully changed URL");
+    }).catchError((error){print("Password can't be changed" + error.toString());});
+    return await naraCollection.document(uid).setData({
+      'URLs': URLs,
+    });
+  }
+  Future<void> updateUserImageData(String Image) async {
+    FirebaseUser user =await FirebaseAuth.instance.currentUser();
+    user.updateProfile(iconImage: Image).then((_){print("Successfully changed URL");
+    }).catchError((error){print("Password can't be changed" + error.toString());});
+
+  }
+  */
+
   // nara list from snapshot
   List<Nara> _naraListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc){

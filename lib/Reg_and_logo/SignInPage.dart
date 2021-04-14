@@ -1,7 +1,7 @@
 import  'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/views/geustHome.dart';
-import 'package:nara_app/views/home.dart';
+import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -26,8 +26,8 @@ class _SignInPageState extends State<SignInPage> {
   String error = '';
   bool loading = false;
   // text field state
-  String email = '';
-  String password = '';
+  TextEditingController email = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : SafeArea(
@@ -57,6 +57,7 @@ class _SignInPageState extends State<SignInPage> {
                   "Email Sign-IN".text.size(22).yellow100.make(),
 
                   TextFormField(
+                    controller: email,
                     keyboardType: TextInputType.text,
                     decoration: InputDecoration(
                         filled: true,
@@ -67,10 +68,11 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     validator: (val) => val.isEmpty ? 'Enter an email' : null,
                     onChanged: (val) {
-                      setState(() => email = val);
+                      setState(() => email = val as TextEditingController);
                     },
                   ).p4().px24(),
                   TextFormField(
+                    controller: password,
                     keyboardType: TextInputType.text,
                     obscureText: true,
                     decoration: InputDecoration(
@@ -82,7 +84,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                     validator: (val) => val.length < 6 ? 'Enter a password 6+ chars long' : null,
                     onChanged: (val) {
-                      setState(() => password = val);
+                      setState(() => password = val as TextEditingController);
                     },
                   ).p4().px24(),
 
@@ -111,7 +113,7 @@ class _SignInPageState extends State<SignInPage> {
                             onPressed: () async {
                               if(_formKey.currentState.validate()){
                                 setState(() => loading = true);
-                                dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                                dynamic result = await _auth.signInWithEmailAndPassword(email.text, password.text);
                                 if(result == null) {
                                   setState(() {
                                     loading = false;

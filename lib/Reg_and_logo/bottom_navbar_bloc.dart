@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nara_app/views/profile.dart';
-import 'package:nara_app/views/home.dart';
+import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/profile.dart';
+import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
 
 enum NavBarItem { HOME, PROFILE, }
 

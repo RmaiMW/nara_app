@@ -9,7 +9,6 @@ import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
 import 'package:provider/provider.dart';
-import 'geustprofile.dart';
 import 'loading.dart';
 import 'profile.dart';
 import 'search.dart';
