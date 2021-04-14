@@ -59,10 +59,12 @@ class _SignInPageState extends State<SignInPage> {
                   TextFormField(
                     controller: email,
                     keyboardType: TextInputType.text,
+                    style: TextStyle(color: Colors.redAccent),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Email",
+                        hintStyle: TextStyle(color: Colors.redAccent),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -75,10 +77,12 @@ class _SignInPageState extends State<SignInPage> {
                     controller: password,
                     keyboardType: TextInputType.text,
                     obscureText: true,
+                    style: TextStyle(color: Colors.redAccent),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Password",
+                        hintStyle: TextStyle(color: Colors.redAccent),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
