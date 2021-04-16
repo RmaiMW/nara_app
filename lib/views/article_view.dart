@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+//import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
@@ -58,7 +58,7 @@ class _ArticleViewState extends State<ArticleView> {
       return Scaffold(
                   appBar: AppBar(
                     centerTitle: true,
-                    backgroundColor: Colors.redAccent,
+                 //   backgroundColor: Colors.redAccent,
                     elevation: 0.0,
                     actions: <Widget>[Builder(builder: (context) {
                       return IconButton(icon: Icon(Icons.format_size_sharp,
@@ -122,9 +122,9 @@ class _ArticleViewState extends State<ArticleView> {
                         child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Choose size of line\t',
-                              style: TextStyle(color: Colors.redAccent,
+                              style: TextStyle(color:Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold),),
-                            Slider(activeColor: Colors.redAccent,
+                            Slider(activeColor:Theme.of(context).primaryColor,
                                 value: _currentSliderValue,
                                 min: 20,
                                 max: 40,
@@ -172,7 +172,7 @@ class _ArticleViewState extends State<ArticleView> {
                 child: Scaffold(
                   appBar: AppBar(
                     centerTitle: true,
-                    backgroundColor: Colors.redAccent,
+                   // backgroundColor: Colors.redAccent,
                     elevation: 0.0,
                     actions: <Widget>[Builder(builder: (context) {
                       return IconButton(icon: Icon(Icons.format_size_sharp,
@@ -217,9 +217,7 @@ class _ArticleViewState extends State<ArticleView> {
                                     onPressed: () async {
                                       favorite();
                                       await DatabaseService(uid: user.uid)
-                                          .updateUserData(
-                                          userData.username, NewsUrl,
-                                          userData.iconImage);
+                                          .updateUserData(userData.username, NewsUrl, userData.iconImage);
                                       print(NewsUrl);
                                     },),
                                   label: Text('')),
@@ -241,9 +239,9 @@ class _ArticleViewState extends State<ArticleView> {
                         child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text('Choose size of line\t',
-                              style: TextStyle(color: Colors.redAccent,
+                              style: TextStyle(color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold),),
-                            Slider(activeColor: Colors.redAccent,
+                            Slider(activeColor: Theme.of(context).primaryColor,
                                 value: _currentSliderValue,
                                 min: 20,
                                 max: 40,

@@ -1,7 +1,7 @@
 import  'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/views/geustHome.dart';
-import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
+//import 'home.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
