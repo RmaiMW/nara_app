@@ -18,7 +18,7 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  bool checked = true;
+  bool value = false;
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   String error = '';
@@ -29,11 +29,13 @@ class _RegistrationState extends State<Registration> {
   TextEditingController password =TextEditingController();
   TextEditingController username = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
-    return loading ? Loading(): SafeArea(
+    if (loading) {
+      return Loading();
+    } else {
+      return SafeArea(
       child: Scaffold(
         body: Container(
           width: MediaQuery.of(context).size.width,
@@ -63,12 +65,12 @@ class _RegistrationState extends State<Registration> {
                   TextFormField(
                     controller: email,
                     keyboardType: TextInputType.text,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Email",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -81,12 +83,12 @@ class _RegistrationState extends State<Registration> {
                   TextFormField(
                     controller: username,
                     keyboardType: TextInputType.text,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText:"Username",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -100,12 +102,12 @@ class _RegistrationState extends State<Registration> {
                   TextFormField(
                     controller: password,
                     keyboardType: TextInputType.text,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -116,12 +118,12 @@ class _RegistrationState extends State<Registration> {
                     },
                   ).p4().px24(),
                   TextFormField(
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "re-enter password",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -129,15 +131,19 @@ class _RegistrationState extends State<Registration> {
                       validator: (val) => val == password.text ? null : 'Re-Enter the Password Pleasae!',
                   ).p4().px24(),
                   HStack([
-                    Checkbox(
-                      value: checked, onChanged: (bool value) { checked=value ;},
-
-                    ),
+                      Checkbox(
+                      value: this.value,
+                      onChanged: (bool value) {
+                        setState(() {
+                          this.value = value;
+                        });
+                      }
+                      ),
                     "Agree & Continue".text.make().py16()
 
                   ]),
                   HStack([
-                    VxBox(child: "Cancel".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
+                    //VxBox(child: "Cancel".text.white.makeCentered().p16()).red500.roundedLg.make().px16().py16(),
                     RaisedButton(
                         color: Colors.red[500],
                         shape: RoundedRectangleBorder(),
@@ -152,23 +158,29 @@ class _RegistrationState extends State<Registration> {
                             if(result == null) {
                               setState(() {
                                 loading = false;
-                                error = 'Please supply a valid email';
+                                error = 'Please supply a valid Information';
                               }
                               );
                             }
-                            await _auth.signInWithEmailAndPassword(email.text, password.text);
-                            //DatabaseService(uid: user.uid).userData;
-                            //UserData userData = snapshot.data;
+                              if (!value) {
+                                setState(() {
+                                  loading = false;
+                                  error = 'Please Agree and check Conditions';
+                                }
+                                );
+                              }
 
-                            //userData.username = username;
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Home()));
+                            else {
+                              await _auth.signInWithEmailAndPassword(
+                                  email.text, password.text);
+                              await Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => Home()));
+                            }
 
                           }
                         }
                     ).px16().py16(),
-                    VxBox(
-                      child: "Register".text.white.makeCentered().p16(),
-                    ).red500.roundedLg.make().px16().py16(),
+
                   ]),
                   GestureDetector(
                     onTap: (){
@@ -192,5 +204,6 @@ class _RegistrationState extends State<Registration> {
         ),
       ),
     );
+    }
   }
 }

@@ -53,31 +53,19 @@ class geustProfile extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     HStack([
-                      SizedBox(width: 20),
+                      SizedBox(width: 40,height: 20,),
                       GestureDetector(
-                        child: VxBox(child: "Sign In".text.bold.red600
+                        child: VxBox(
+                            child: "Sign In".text.bold.red600
                             .makeCentered().p16()).red200.roundedLg
                             .make(),
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => SignInPage()));
+                          Navigator.pushReplacement(context, MaterialPageRoute(
+                              builder: (context) => Wrapper()));
                         },
                       )
                     ]),
-                    SizedBox(width: 20),
-                    HStack([
-                      GestureDetector(
-                        child: VxBox(child: "Sign Up".text.bold.red600
-                            .makeCentered().p16()).red200.roundedLg
-                            .make(),
 
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(
-                              builder: (context) => Registration()));
-                              //builder: (context) => Wrapper()));
-                        },
-                      )
-                    ]),
                   ],
                 ),
               ],

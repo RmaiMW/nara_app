@@ -11,9 +11,11 @@ class DatabaseService {
   // collection reference
   final CollectionReference naraCollection = Firestore.instance.collection('nara');
 
-  Future<void> updateUserData(String username) async {
+  Future<void> updateUserData(String username,String NewsUrl,String iconImage) async {
     return await naraCollection.document(uid).setData({
       'username': username,
+      'NewsUrl': NewsUrl,
+      'iconImage': iconImage,
     });
   }
   Future<void> updateUserDatap(String password) async {
@@ -55,8 +57,11 @@ class DatabaseService {
   // user data from snapshots
   UserData _userDataFromSnapshot(DocumentSnapshot snapshot) {
     return UserData(
-      uid: uid,
+      //uid: uid,
       username: snapshot.data['username'],
+      NewsUrl: snapshot.data['NewsUrl'],
+      iconImage: snapshot.data['iconImage']
+
     );
   }
 

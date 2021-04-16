@@ -54,17 +54,15 @@ class _SignInPageState extends State<SignInPage> {
                 children: <Widget>[
                   CommonLogo(),
                   HeightBox(10),
-                  "Email Sign-IN".text.size(22).yellow100.make(),
-
                   TextFormField(
                     controller: email,
                     keyboardType: TextInputType.text,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Email",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),
@@ -77,12 +75,12 @@ class _SignInPageState extends State<SignInPage> {
                     controller: password,
                     keyboardType: TextInputType.text,
                     obscureText: true,
-                    style: TextStyle(color: Colors.redAccent),
+                    style: TextStyle(color: Colors.black),
                     decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,
                         hintText: "Password",
-                        hintStyle: TextStyle(color: Colors.redAccent),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)))
                     ),

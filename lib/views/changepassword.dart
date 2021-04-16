@@ -37,7 +37,8 @@ class _ChangePassState extends State<ChangePass> {
                     style: TextStyle(fontSize: 18.0,color: Colors.redAccent),
                   ),
                   SizedBox(height: 20,),
-                  /*Container( margin:EdgeInsets.all(4), width: 200,height: 50,
+                  Container(
+                    padding:EdgeInsets.all(4), width: 500,height: 80,
                     child:TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
@@ -46,9 +47,10 @@ class _ChangePassState extends State<ChangePass> {
                           hintText: "Current Password",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
-                      onChanged: (val)=> val == _currentpassword? cp=true:"Current Password",
+
+                validator: (val) => val ==userData.password.toString() ?  null : 'Invalid password',
                     ),
-                  ),*/
+                  ),
                    TextFormField(obscureText: true, obscuringCharacter: '*',
                       keyboardType: TextInputType.text,
                       decoration: InputDecoration(
