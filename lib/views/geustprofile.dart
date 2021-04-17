@@ -48,25 +48,21 @@ class geustProfile extends StatelessWidget {
                     backgroundImage: AssetImage('assets/avatar_male.png'),
                   ),
                 ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    HStack([
-                      SizedBox(width: 40,height: 20,),
-                      GestureDetector(
-                        child: VxBox(
-                            child: "Sign In".text.bold.red600
-                            .makeCentered().p16()).red200.roundedLg
-                            .make(),
-                        onTap: () {
-                          Navigator.pushReplacement(context, MaterialPageRoute(
-                              builder: (context) => Wrapper()));
-                        },
-                      )
-                    ]),
-
-                  ],
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 65, 20),
+                  child: HStack([
+                    SizedBox(width: 40,height: 20,),
+                    GestureDetector(
+                      child: VxBox(
+                          child: "Sign In".text.bold.red600
+                              .makeCentered().p16()).red200.roundedLg
+                          .make(),
+                      onTap: () {
+                        Navigator.pushReplacement(context, MaterialPageRoute(
+                            builder: (context) => Wrapper()));
+                      },
+                    )
+                  ]),
                 ),
               ],
             ),

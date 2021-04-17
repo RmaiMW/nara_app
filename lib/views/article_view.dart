@@ -8,6 +8,7 @@ import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'loading.dart';
@@ -107,7 +108,8 @@ class _ArticleViewState extends State<ArticleView> {
                               FlatButton.icon(onPressed: () {},
                                   icon: IconButton(icon: Icon(
                                     Icons.public, color: Colors.white,),
-                                    onPressed: () {},),
+                                    onPressed: ()  {
+                                      },),
                                   label: Text('')),
                             ],
                           ),
@@ -224,7 +226,15 @@ class _ArticleViewState extends State<ArticleView> {
                               FlatButton.icon(onPressed: () {},
                                   icon: IconButton(icon: Icon(
                                     Icons.public, color: Colors.white,),
-                                    onPressed: () {},),
+                                    onPressed: () async {
+                                      if (await canLaunch(NewsUrl)) {
+                                      await launch(NewsUrl);
+                                      } else {
+                                      throw 'Could not launch $NewsUrl';
+                                      }
+
+
+                                    },),
                                   label: Text('')),
                             ],
                           ),
