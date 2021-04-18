@@ -80,7 +80,7 @@ class _HomeState extends State<Home> {
                 icon: Icon(Icons.search),
                 onPressed: () => showSearch(
                   context: context,
-                  delegate: Search(),
+                  delegate: Search(articles),
                 ),
               ),
 
@@ -170,4 +170,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+
 }
+
+
