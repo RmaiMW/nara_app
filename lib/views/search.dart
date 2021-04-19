@@ -14,7 +14,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 class Search extends SearchDelegate<ArticleModel>{
 final _api='https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=9114be959197422d932f035b9c5bc462';
 final List<ArticleModel> article;// = new List<ArticleModel>();
-List<ArticleModel> result = new List<ArticleModel>();
+
 String s;
   Search(this.article);
 
@@ -51,13 +51,41 @@ String s;
   @override
   Widget buildSuggestions(BuildContext context) {
     // TODO: implement buildSuggestions
-          return ListView(
+    ArticleModel a=new ArticleModel(
+      title: 'No News',
+      author: '',
+      description: '',
+      url: '',
+      urlToImage: '',
+      content: '',
+    );
+    List<ArticleModel> result = [];
+    result.add(a);
+    List<ArticleModel> suggestions=[];
+    query.isEmpty ? suggestions=result:suggestions.addAll(
+      article.where((element) => element.title.toLowerCase().contains(query)));
+
+
+       return ListView(
+          children:query.isEmpty?result.map<ListTile>((e) => ListTile(
+            title: Text(e.title),
+            leading: SizedBox(),
+          )).toList():
+          suggestions.map<ListTile>((e) => ListTile(
+            title: Text(e.title),
+            leading:Icon(Icons.article),
+          )).toList(),
+
+
+       );
+
+        /*  return ListView(
             children: article.where((element) => element.title.toLowerCase().contains(query)).map<ListTile>((e) => ListTile(
               title:Text (e.title),
               leading:Icon(Icons.article),
 
 
-            )).toList()          );
+            )).toList()          );*/
 
   }
 
