@@ -26,7 +26,7 @@ class _ArticleViewState extends State<ArticleView> {
   String NewsUrl = null;
   final Completer<WebViewController> _completer =
       Completer<WebViewController>();
-  double _currentSliderValue = 20;
+  double _currentSliderValue = 250;
   bool _fav =false;
   bool _like =false;
   bool _dis=false;
@@ -248,14 +248,14 @@ class _ArticleViewState extends State<ArticleView> {
                         color: Colors.white,
                         child: Row(mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Choose size of line\t',
+                            Text('Change size of New\t',
                               style: TextStyle(color: Theme.of(context).primaryColor,
                                   fontWeight: FontWeight.bold),),
                             Slider(activeColor: Theme.of(context).primaryColor,
                                 value: _currentSliderValue,
-                                min: 20,
-                                max: 40,
-                                divisions: 5,
+                                min: 200,
+                                max: 420,
+                                divisions: 30,
                                 label: _currentSliderValue.round().toString(),
                                 onChanged: (double s) {
                                   setState(() {
@@ -265,16 +265,10 @@ class _ArticleViewState extends State<ArticleView> {
                           ],)
                     ),
                   ),
-                  body: Container(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-
+                  body:Center(
+                   child:Container(
+                  //  height:_currentSliderValue,// MediaQuery.of(context).size.height,
+                    width:_currentSliderValue,// MediaQuery.of(context).size.width,
                     child: WebView(
                       initialUrl: widget.blogUrl,
                       onWebViewCreated: ((WebViewController webViewController) {
@@ -284,6 +278,7 @@ class _ArticleViewState extends State<ArticleView> {
                     ),
 
                   ),
+                ),
 
                 ),
               );
