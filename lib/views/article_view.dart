@@ -23,7 +23,10 @@ class ArticleView extends StatefulWidget {
 
 class _ArticleViewState extends State<ArticleView> {
   final _formKey = GlobalKey<FormState>();
-  String NewsUrl = null;
+  String NewsUrl= null;
+  //List _NewsUrl = [];
+  List _NewsUrl = [];
+
   final Completer<WebViewController> _completer =
       Completer<WebViewController>();
   double _currentSliderValue = 250;
@@ -35,6 +38,7 @@ class _ArticleViewState extends State<ArticleView> {
       _fav = !_fav;
     });
   }
+  //instead of like and dislike a flash on the agency
   void like() {
     setState(() {
       _like = !_like;
@@ -52,6 +56,18 @@ class _ArticleViewState extends State<ArticleView> {
 
     });
   }
+  /*
+  _addNewsUrl(String Newsurl) {
+    if (Newsurl.isNotEmpty) {
+      setState(() {
+        _NewsUrl.add(Newsurl);
+      });
+      //subingredientController.clear();
+    }
+  }
+
+   */
+
   @override
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
@@ -169,6 +185,7 @@ class _ArticleViewState extends State<ArticleView> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
+              //_NewsUrl.addAll(userData.NewsUrl);
               return Form(
                 key: _formKey,
                 child: Scaffold(
@@ -212,14 +229,16 @@ class _ArticleViewState extends State<ArticleView> {
                           SizedBox(height: 40,),
                           Row(crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              FlatButton.icon(onPressed: () {},
+                              FlatButton.icon(onPressed: () async {
+                                //_addNewsUrl(NewsUrl);
+                              //_NewsUrl.add(NewsUrl);
+                                },
                                   icon: IconButton(icon: Icon(
                                       _fav ? Icons.favorite : Icons
                                           .favorite_border, color: Colors.white),
                                     onPressed: () async {
                                       favorite();
-                                      await DatabaseService(uid: user.uid)
-                                          .updateUserData(userData.username, NewsUrl, userData.iconImage);
+                                      await DatabaseService(uid: user.uid).updateUserData(userData.username,NewsUrl,userData.iconImage);
                                       print(NewsUrl);
                                     },),
                                   label: Text('')),

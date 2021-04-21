@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nara_app/helper/news.dart';
 import 'package:nara_app/models/article_model.dart';
+import 'package:nara_app/models/category_model.dart';
 import 'package:nara_app/views/article_list.dart';
+import 'package:nara_app/views/category_list.dart';
+import 'package:nara_app/views/category_tile.dart';
 import 'loading.dart';
 
 class CategoryNews extends StatefulWidget {
@@ -69,7 +72,8 @@ class _CategoryNewsState extends State<CategoryNews> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    /// Blogs
+
+                    // Blogs
                     ArticleList(
                       articles: articles,
                     ),

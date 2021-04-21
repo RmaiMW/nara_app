@@ -1,15 +1,13 @@
 import  'package:flutter/material.dart';
-import 'package:nara_app/models/user.dart';
 import 'package:nara_app/views/geustHome.dart';
-//import 'home.dart';
-import 'package:nara_app/views/wrapper.dart';
-import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'CommonLogo.dart';
 import 'Registration.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/views/loading.dart';
+
+import 'ResetScreen.dart';
 
 class SignInPage extends StatefulWidget {
 
@@ -28,6 +26,7 @@ class _SignInPageState extends State<SignInPage> {
   // text field state
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : SafeArea(
@@ -130,7 +129,8 @@ class _SignInPageState extends State<SignInPage> {
                   ]),
                   GestureDetector(
                     onTap: (){
-                      print("forgot Password");
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ResetScreen()));
                     },
 
                     child: HStack([
@@ -138,8 +138,9 @@ class _SignInPageState extends State<SignInPage> {
                     ]).centered().p4(),
                   ),
                   HStack([
-                    VxBox(child:  FaIcon(FontAwesomeIcons.facebookF,color: Colors.white,size: 30,).p20()).blue700.roundedFull.make(),
-                    VxBox(child:  FaIcon(FontAwesomeIcons.google,color: Colors.white,size: 25,).p20()).red700.roundedFull.make().p4(),
+                    VxBox(child:  FaIcon(FontAwesomeIcons.facebookF,color: Colors.white,size: 30,).p20()).blue700.roundedFull.make().onFeedBackTap(() {_auth.signInFacebook();}),
+                    
+                    VxBox(child:  FaIcon(FontAwesomeIcons.google,color: Colors.white,size: 25,).p20()).red700.roundedFull.make().p4().onTap(() {_auth.signInWithGoogle();}),
                   ]),
                   SizedBox(height: 12.0),
                   Text(

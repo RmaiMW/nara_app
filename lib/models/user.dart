@@ -2,21 +2,40 @@ class User {
 
   final String uid;
   final String username;
-  final String password;
-  final String NewsUrl;
-  final String iconImage;
-  User({ this.uid,this.username, this.password,this.NewsUrl, this.iconImage  });
+
+  User({this.uid,this.username});
 
 }
 
 class UserData {
-  final String username;
-  final String password;
-  final String NewsUrl;
-  final String iconImage;
+  String username;
+  // ignore: non_constant_identifier_names
+  String  NewsUrl ;
+  String iconImage;
 
 
 
-  UserData({ this.username,this.password,this.NewsUrl,this.iconImage });
+  UserData({this.username,this.NewsUrl,this.iconImage});
+/*
+  UserData.fromMap(Map<String, dynamic> data){
+    //username = data['username'];
+    NewsUrl = data['NewsUrl'];
+    //iconImage = data['iconImage'];
+
+  }
+  Map<String, dynamic> toMap(){
+    return{
+      //'username' : username,
+      'NewsUrl' : NewsUrl,
+      //'iconImage' : iconImage,
+    };
+
+
+
+  }
+
+ */
+
+
 
 }

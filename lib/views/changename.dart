@@ -34,6 +34,7 @@ class _ChangeNameState extends State<ChangeName> {
                   ),
                   SizedBox(height: 20.0),
                   TextFormField(
+                    //controller: _name,
                     initialValue: userData.username,
                     decoration: InputDecoration(
                         filled: true,
@@ -43,7 +44,8 @@ class _ChangeNameState extends State<ChangeName> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(10.0)),)),
                     validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                    onChanged: (val) => setState(() => _name= val),
+                    onChanged: (val) => setState(() => _name = val ),
+
                   ),
                   SizedBox(height: 10.0),
                   Row(
@@ -52,7 +54,7 @@ class _ChangeNameState extends State<ChangeName> {
                         child: Text('Apply',style: TextStyle(color:Theme.of(context).primaryColor),),
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
-                            await DatabaseService(uid: user.uid).updateUserData(_name,userData.NewsUrl,userData.iconImage);
+                            await DatabaseService(uid: user.uid).updateUserData(_name, userData.NewsUrl, userData.iconImage);
                             Navigator.of(context).pop();
                           }
                         },
@@ -66,22 +68,6 @@ class _ChangeNameState extends State<ChangeName> {
                     ],
                   ),
 
-               /*   RaisedButton(
-                      color: Colors.pink[400],
-                      child: Text(
-                        'Update',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        if(_formkey.currentState.validate()){
-                          await DatabaseService(uid: user.uid).updateUserData(
-                              _name ?? snapshot.data.username);
-                          print(_name);
-                          print(snapshot.data.username);
-                          Navigator.pop(context);
-                        }
-                      }
-                  ),*/
                 ],
               ),
             );

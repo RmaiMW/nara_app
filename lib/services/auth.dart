@@ -1,13 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nara_app/models/user.dart';
-import 'package:nara_app/views/wrapper.dart';
 import 'database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart' as http;
 
 class AuthService {
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
 
 
   // create user obj based on firebase user
@@ -34,6 +34,42 @@ class AuthService {
       return null;
     }
   }
+  Future  <void> signInFacebook() async {
+    FacebookLogin facebookLogin = FacebookLogin();
+
+    final result = await facebookLogin.logIn(['email']);
+    final token = result.accessToken.token;
+    final graphResponse = await http.get(
+        'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name&access_token=${token}');
+    print(graphResponse.body);
+    if (result.status == FacebookLoginStatus.loggedIn) {
+      final credential = FacebookAuthProvider.getCredential(accessToken: token);
+      _auth.signInWithCredential(credential);
+    }
+  }
+  Future<void> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount googleUser =
+      await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+      await googleUser.authentication;
+
+      final AuthCredential credential =
+      GoogleAuthProvider.getCredential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      FirebaseUser user =
+          (await _auth.signInWithCredential(credential)).user;
+      print("signed in " + user.displayName);
+      return user;
+    }
+    catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
 
   // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
@@ -53,8 +89,8 @@ class AuthService {
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       // create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('$username'??'new user',null,null);
-      //await _auth.signInWithEmailAndPassword(email: email, password: password);
+      await DatabaseService(uid: user.uid).updateUserData('$username'??'new user', null,null);
+     //await _auth.signInWithEmailAndPassword(email: email, password: password);
       return _userFromFirebaseUser(user);
       //return user;
     } catch (error) {
@@ -66,12 +102,38 @@ class AuthService {
   // sign out
   Future signout()  async {
     try {
-      return  await _auth.signOut();
+      return await _auth.signOut();
     } catch (error) {
       print(error.toString());
       return null;
     }
   }
+    Future< bool> validatePassword(String password) async {
+      //FirebaseUser firebaseUser =await FirebaseAuth.instance.currentUser();
+
+      var firebaseUser = await _auth.currentUser();
+      print(firebaseUser.email);
+
+      var authCredentials = EmailAuthProvider.getCredential(
+          email: firebaseUser.email, password: password);
+      try {
+        var authResult = await firebaseUser.reauthenticateWithCredential(
+            authCredentials);
+        return authResult.user != null;
+      }catch(e){
+        print(e);
+        print('Wrong Credentials');
+        return false;
+      }
+
+    }
+
+    Future<void> updatePassword(String password) async {
+      var firebaseUser = await _auth.currentUser();
+      firebaseUser.updatePassword(password);
+    }
+
+
 
 
 }
