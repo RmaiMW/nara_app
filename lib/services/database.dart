@@ -3,15 +3,18 @@ import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:nara_app/services/auth.dart';
+import 'package:nara_app/services/storage.dart';
 
 class DatabaseService {
 
   final String uid;
   DatabaseService({ this.uid });
   AuthService _auth = AuthService();
+  StorageRepo _storageRepo = StorageRepo();
   // collection reference
+
   final CollectionReference naraCollection = Firestore.instance.collection('nara');
-  Future<bool> validateCurrentPassword(String password) async {
+  Future <bool> validateCurrentPassword(String password) async {
     return await _auth.validatePassword(password);
   }
 
@@ -30,28 +33,8 @@ class DatabaseService {
     FirebaseUser user =await FirebaseAuth.instance.currentUser();
     user.updatePassword(password).then((_){print("Successfully changed password");
     }).catchError((error){print("Password can't be changed" + error.toString());});
-  //  return await naraCollection.document(uid).setData({
-   //   'password': password,
-  //  });
-  }
-
-  /*
-  Future<void> updateUserURLData(List<String> URLs) async {
-    FirebaseUser user =await FirebaseAuth.instance.currentUser();
-    user.updateProfile(URLs: URLs).then((_){print("Successfully changed URL");
-    }).catchError((error){print("Password can't be changed" + error.toString());});
-    return await naraCollection.document(uid).setData({
-      'URLs': URLs,
-    });
-  }
-  Future<void> updateUserImageData(String Image) async {
-    FirebaseUser user =await FirebaseAuth.instance.currentUser();
-    user.updateProfile(iconImage: Image).then((_){print("Successfully changed URL");
-    }).catchError((error){print("Password can't be changed" + error.toString());});
 
   }
-  */
-
   // nara list from snapshot
   List<Nara> _naraListFromSnapshot(QuerySnapshot snapshot) {
     return snapshot.documents.map((doc){

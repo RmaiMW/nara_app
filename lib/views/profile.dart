@@ -1,11 +1,17 @@
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
+import 'package:nara_app/services/storage.dart';
+import 'package:nara_app/views/Saved.dart';
+import 'package:nara_app/views/avatar.dart';
 import 'package:nara_app/views/changetheme.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/loading.dart';
@@ -41,12 +47,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   int _selectedIndex=0;
   bool loading = false;
   final AuthService _auth = AuthService();
+  final StorageRepo _storageRepo=StorageRepo();
   bool isSwitched = false;
 
   var _passwordController = TextEditingController();
   var _newPasswordController = TextEditingController();
   var _repeatPasswordController = TextEditingController();
   bool checkCurrentPasswordValid = true;
+
   @override
   void dispose() {
     _passwordController.dispose();
@@ -109,7 +117,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserData userData = snapshot.data;
-            print(userData.username);
+            //print(userData.username);
             return Form(
               key: _formKey,
               child: Scaffold(
@@ -137,12 +145,24 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
 
                           Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: CircleAvatar(
+                            child:Avatar(
+                              avatarUrl: userData?.iconImage,
+                              onTap: () async {
+                                File image = await ImagePicker.pickImage(
+                                    source: ImageSource.gallery);
+
+                                await _storageRepo.uploadFile(image);
+
+                                setState(() {});
+                              },
+                            ),
+                            /* CircleAvatar(
                               radius: 50.0,
                               backgroundColor: Colors.blueAccent[100],
                               backgroundImage: AssetImage(
                                   'assets/avatar_male.png'),
                             ),
+                            */
                           ),
 
                           HStack([
@@ -178,7 +198,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   ],).p16()
                               ),
                               onTap: () {
-                                  //Navigator.push(context, MaterialPageRoute(builder: (context)=>Favorite()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Later_saved()));
                               },
                             ),
                           ]),

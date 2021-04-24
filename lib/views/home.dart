@@ -4,7 +4,6 @@ import 'package:nara_app/helper/news.dart';
 import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/models/category_model.dart';
-import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
@@ -24,7 +23,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   List<CategoryModel> categories = new List<CategoryModel>();
   List<ArticleModel> articles = new List<ArticleModel>();
-  final AuthService _auth = AuthService();
   bool loading = true;
 
   bool _isVisible = false;

@@ -34,6 +34,7 @@ class AuthService {
       return null;
     }
   }
+
   Future  <void> signInFacebook() async {
     FacebookLogin facebookLogin = FacebookLogin();
 
@@ -47,6 +48,8 @@ class AuthService {
       _auth.signInWithCredential(credential);
     }
   }
+
+
   Future<void> signInWithGoogle() async {
     try {
       final GoogleSignInAccount googleUser =
@@ -108,24 +111,20 @@ class AuthService {
       return null;
     }
   }
-    Future< bool> validatePassword(String password) async {
+    Future <bool> validatePassword(String password) async {
       //FirebaseUser firebaseUser =await FirebaseAuth.instance.currentUser();
-
-      var firebaseUser = await _auth.currentUser();
-      print(firebaseUser.email);
-
-      var authCredentials = EmailAuthProvider.getCredential(
-          email: firebaseUser.email, password: password);
+      return true;
+      var _firebaseUser = await _auth.currentUser();
+      final AuthCredential authCredentials = EmailAuthProvider.getCredential(
+          email: _firebaseUser.email, password: password);
       try {
-        var authResult = await firebaseUser.reauthenticateWithCredential(
-            authCredentials);
-        return authResult.user != null;
-      }catch(e){
-        print(e);
-        print('Wrong Credentials');
-        return false;
-      }
-
+          AuthResult authResult = await _firebaseUser.reauthenticateWithCredential(
+              authCredentials);
+          return (authResult.user != null);
+        }catch(e){
+          print(e);
+          return false;
+        }
     }
 
     Future<void> updatePassword(String password) async {

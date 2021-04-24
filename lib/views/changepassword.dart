@@ -148,7 +148,7 @@ class _ChangePassState extends State<ChangePass> {
                 validator: (val) =>
                 val == _newPasswordController.text
                     ? null
-                    : 'Re-Enter the Password Pleasae!',
+                    : 'Re-Enter the Password Please!',
               ),
 
               Row(
@@ -158,30 +158,43 @@ class _ChangePassState extends State<ChangePass> {
                         .of(context)
                         .primaryColor),),
                     onPressed: () async {
+                      /*
                       checkCurrentPasswordValid =
                       await DatabaseService(uid: user.uid)
                           .validateCurrentPassword(
                           _passwordController.text);
 
+                       */
                       setState(() {});
 
-                      if (_formkey.currentState.validate() &&
-                          checkCurrentPasswordValid) {
+
+
+                      if (_formkey.currentState.validate()) {
                         DatabaseService(uid: user.uid)
                             .updateUserPassword(
                             _newPasswordController.text);
                         Navigator.pop(context);
                         Fluttertoast.showToast(
                             msg: "Successfully Changed",
-                            toastLength: Toast.LENGTH_SHORT,
+                            toastLength: Toast.LENGTH_LONG,
                             gravity: ToastGravity.CENTER,
-                            timeInSecForIosWeb: 2,
+                            timeInSecForIosWeb: 3,
                             backgroundColor: Colors.blue,
                             textColor: Colors.black,
                             fontSize: 16.0
                         );
-                        Navigator.pop(context);
+
                       }
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(
+                          msg: "Something went wrong",
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.CENTER,
+                          timeInSecForIosWeb: 3,
+                          backgroundColor: Colors.blue,
+                          textColor: Colors.black,
+                          fontSize: 16.0
+                      );
 
 
                       /*
