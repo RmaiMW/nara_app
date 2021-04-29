@@ -14,6 +14,7 @@ class DatabaseService {
   // collection reference
 
   final CollectionReference naraCollection = Firestore.instance.collection('nara');
+
   Future <bool> validateCurrentPassword(String password) async {
     return await _auth.validatePassword(password);
   }

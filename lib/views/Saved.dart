@@ -5,13 +5,14 @@ import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/article_list.dart';
+import 'package:nara_app/views/article_saved_list.dart';
 import 'package:provider/provider.dart';
 import 'loading.dart';
 import 'search.dart';
 
 class Later_saved extends StatefulWidget {
-  final String blogUrl;
-  Later_saved({this.blogUrl});
+  final String newsUrl;
+  Later_saved({Key key, @required this.newsUrl}) : super(key: key);
 
   @override
   _Later_savedState createState() => _Later_savedState();
@@ -104,8 +105,9 @@ class _Later_savedState extends State<Later_saved> {
             ),
             child: Column(
               children: <Widget>[
-                ArticleList(
+                ArticleSavedList(
                   articles: articles,
+                  NewsUrl: widget.newsUrl
                 ),
               ],
             ),

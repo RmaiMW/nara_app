@@ -152,8 +152,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     source: ImageSource.gallery);
 
                                 await _storageRepo.uploadFile(image);
-
-                                setState(() {});
+                                await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid));
+                                    setState(() {});
                               },
                             ),
                             /* CircleAvatar(
@@ -198,7 +198,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   ],).p16()
                               ),
                               onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Later_saved()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Later_saved(newsUrl: userData.NewsUrl)));
                               },
                             ),
                           ]),

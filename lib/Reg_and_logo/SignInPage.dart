@@ -138,9 +138,12 @@ class _SignInPageState extends State<SignInPage> {
                     ]).centered().p4(),
                   ),
                   HStack([
+                    /*
                     VxBox(child:  FaIcon(FontAwesomeIcons.facebookF,color: Colors.white,size: 30,).p20()).blue700.roundedFull.make().onFeedBackTap(() {
                       _auth.signInFacebook();
                     }),
+
+                     */
                     
                     VxBox(child:  FaIcon(FontAwesomeIcons.google,color: Colors.white,size: 25,).p20()).red700.roundedFull.make().p4().onTap(() {_auth.signInWithGoogle();}),
                   ]),

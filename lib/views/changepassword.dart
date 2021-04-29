@@ -23,6 +23,8 @@ class _ChangePassState extends State<ChangePass> {
   var _repeatPasswordController = TextEditingController();
   final AuthService _auth = AuthService();
   bool checkCurrentPasswordValid = true;
+  String error = '';
+
 
   @override
   void dispose() {
@@ -97,11 +99,12 @@ class _ChangePassState extends State<ChangePass> {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(
                               Radius.circular(10.0)),)),
-                    controller: _passwordController,
+
                     validator: (val) =>
                     val == ''
                         ? 'Empty Field! '
                         : null,
+                    controller: _passwordController,
                     onChanged: (val) {
                       setState(() =>
                       _passwordController =
@@ -158,26 +161,27 @@ class _ChangePassState extends State<ChangePass> {
                         .of(context)
                         .primaryColor),),
                     onPressed: () async {
-                      /*
+
                       checkCurrentPasswordValid =
                       await DatabaseService(uid: user.uid)
                           .validateCurrentPassword(
                           _passwordController.text);
-
-                       */
                       setState(() {});
-
-
+                      if(!checkCurrentPasswordValid){
+                        error = 'Current password is invalid! ';
+                        print('wrong password');
+                      }
 
                       if (_formkey.currentState.validate()) {
                         DatabaseService(uid: user.uid)
                             .updateUserPassword(
                             _newPasswordController.text);
                         Navigator.pop(context);
+                        Navigator.pop(context);
                         Fluttertoast.showToast(
                             msg: "Successfully Changed",
                             toastLength: Toast.LENGTH_LONG,
-                            gravity: ToastGravity.CENTER,
+                            gravity: ToastGravity.TOP,
                             timeInSecForIosWeb: 3,
                             backgroundColor: Colors.blue,
                             textColor: Colors.black,
@@ -185,29 +189,7 @@ class _ChangePassState extends State<ChangePass> {
                         );
 
                       }
-                      Navigator.pop(context);
-                      Fluttertoast.showToast(
-                          msg: "Something went wrong",
-                          toastLength: Toast.LENGTH_LONG,
-                          gravity: ToastGravity.CENTER,
-                          timeInSecForIosWeb: 3,
-                          backgroundColor: Colors.blue,
-                          textColor: Colors.black,
-                          fontSize: 16.0
-                      );
-
-
-                      /*
-                          if(_formkey.currentState.validate() &&
-                              checkCurrentPasswordValid){
-                            await DatabaseService(uid: user.uid).updateUserDatap(_newPasswordController.text);
-                            Navigator.of(context).pop();
-                          }
-
-                           */
-
-
-                    },
+                       },
                   ),
                   TextButton(
                     child: Text('Cancel', style: TextStyle(color: Theme
@@ -219,6 +201,12 @@ class _ChangePassState extends State<ChangePass> {
                   ),
                 ],
               ),
+              SizedBox(height: 12.0),
+              Text(
+                error,
+                style: TextStyle(color: Colors.red, fontSize: 14.0),
+              ),
+
             ],
           ),
         ),

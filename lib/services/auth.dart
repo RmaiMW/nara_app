@@ -1,4 +1,4 @@
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+//import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:nara_app/models/user.dart';
 import 'database.dart';
@@ -34,7 +34,7 @@ class AuthService {
       return null;
     }
   }
-
+/*
   Future  <void> signInFacebook() async {
     FacebookLogin facebookLogin = FacebookLogin();
 
@@ -49,6 +49,8 @@ class AuthService {
     }
   }
 
+
+ */
 
   Future<void> signInWithGoogle() async {
     try {
@@ -113,24 +115,39 @@ class AuthService {
   }
     Future <bool> validatePassword(String password) async {
       //FirebaseUser firebaseUser =await FirebaseAuth.instance.currentUser();
-      return true;
+      //return true;
       var _firebaseUser = await _auth.currentUser();
       final AuthCredential authCredentials = EmailAuthProvider.getCredential(
           email: _firebaseUser.email, password: password);
+      print(_firebaseUser.email);
+      print(password);
       try {
-          AuthResult authResult = await _firebaseUser.reauthenticateWithCredential(
-              authCredentials);
-          return (authResult.user != null);
+          AuthResult authRes = await _firebaseUser.reauthenticateWithCredential(authCredentials);
+          return (authRes.user != null);
         }catch(e){
-          print(e);
-          return false;
+            print(e);
+            return false;
         }
+
     }
 
     Future<void> updatePassword(String password) async {
       var firebaseUser = await _auth.currentUser();
       firebaseUser.updatePassword(password);
     }
+    /*
+    Future<void> deleteUser() async{
+      try {
+        await FirebaseAuth.instance.currentUser.delete();
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'requires-recent-login') {
+          print(
+              'The user must reauthenticate before this operation can be executed.');
+        }
+      }
+    }
+
+     */
 
 
 
