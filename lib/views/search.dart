@@ -71,21 +71,15 @@ String s;
             title: Text(e.title),
             leading: SizedBox(),
           )).toList():
-          suggestions.map<ListTile>((e) => ListTile(
-            title: Text(e.title),
-            leading:Icon(Icons.article),
+          suggestions.map<BlogTile>((e) => BlogTile(
+            title: e.title,
+            imageUrl: e.urlToImage,
+            desc: '', url: e.url,
           )).toList(),
 
 
        );
 
-        /*  return ListView(
-            children: article.where((element) => element.title.toLowerCase().contains(query)).map<ListTile>((e) => ListTile(
-              title:Text (e.title),
-              leading:Icon(Icons.article),
-
-
-            )).toList()          );*/
 
   }
 
