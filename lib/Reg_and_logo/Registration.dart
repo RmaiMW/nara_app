@@ -171,12 +171,12 @@ class _RegistrationState extends State<Registration> {
                                 );
                               }
 
-                            else {
-                              await _auth.signInWithEmailAndPassword(
-                                  email.text, password.text);
-                              await Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => Home()));
-                            }
+                              else {
+                                await _auth.signInWithEmailAndPassword(
+                                    email.text, password.text);
+                                await Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => Home()));
+                              }
 
                           }
                         }

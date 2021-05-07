@@ -20,6 +20,7 @@ import 'package:nara_app/views/changename.dart';
 import 'package:nara_app/views/changepassword.dart';
 import 'package:nara_app/views/changetheme.dart';
 import 'package:nara_app/views/hotnews.dart';
+import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'loading.dart';
 import 'recommendation.dart';
@@ -195,7 +196,8 @@ class _HomeState extends State<Home> {
                         CustomizeListTile(Icons.favorite,'Favorite', () {Navigator.push(context, MaterialPageRoute(builder: (context)=>LaterSaved(newsUrl: _News)));}),
                         CustomizeListTile(Icons.change_history,'Change Theme', _changetheme),
                         CustomizeListTile(Icons.password,'Change Password', () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePass()));}),
-                        CustomizeListTile(Icons.logout,'Log out', () async {await _auth.signout();}),
+                        CustomizeListTile(Icons.logout,'Log out', () async {await _auth.signout();
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Wrapper()));}),
                       ],
                     ),
                   ),
