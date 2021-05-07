@@ -19,21 +19,23 @@ import 'package:nara_app/views/category_list.dart';
 import 'package:nara_app/views/changename.dart';
 import 'package:nara_app/views/changepassword.dart';
 import 'package:nara_app/views/changetheme.dart';
+import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/hotnews.dart';
+import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'loading.dart';
 import 'recommendation.dart';
 import 'search.dart';
 
 
-class Home extends StatefulWidget {
+class Recomm extends StatefulWidget {
 
 
   @override
-  _HomeState createState() => _HomeState();
+  _RecommState createState() => _RecommState();
 }
 
-class _HomeState extends State<Home> {
+class _RecommState extends State<Recomm> {
   List<CategoryModel> categories = new List<CategoryModel>();
   List<ArticleModel> articles = new List<ArticleModel>();
   bool loading = true;
@@ -42,7 +44,7 @@ class _HomeState extends State<Home> {
   final StorageRepo _storageRepo=StorageRepo();
   bool isSwitched = false;
   List _News = [];
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
 
   bool _isVisible = false;
@@ -63,7 +65,7 @@ class _HomeState extends State<Home> {
 
   getNews() async {
     News newsClass = News();
-    await newsClass.getNews();
+    await newsClass.getRecomNews();
     articles = newsClass.news;
     setState(() {
       loading = false;
@@ -195,7 +197,9 @@ class _HomeState extends State<Home> {
                         CustomizeListTile(Icons.favorite,'Favorite', () {Navigator.push(context, MaterialPageRoute(builder: (context)=>LaterSaved(newsUrl: _News)));}),
                         CustomizeListTile(Icons.change_history,'Change Theme', _changetheme),
                         CustomizeListTile(Icons.password,'Change Password', () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePass()));}),
-                        CustomizeListTile(Icons.logout,'Log out', () async {await _auth.signout();}),
+                        CustomizeListTile(Icons.logout,'Log out', () async {await _auth.signout();
+                        Navigator.pushReplacement(
+                            context, MaterialPageRoute(builder: (context) => Wrapper()));}),
                       ],
                     ),
                   ),
@@ -209,11 +213,6 @@ class _HomeState extends State<Home> {
                       ),
                       child: Column(
                         children: <Widget>[
-
-                          /// Categories
-                          CategoryList(
-                            categories: categories,
-                          ),
 
                           /// Blogs
                           ArticleList(
@@ -229,7 +228,8 @@ class _HomeState extends State<Home> {
                     selectedFontSize: 14,
                     unselectedFontSize: 13,
                     unselectedItemColor: Colors.grey[500],
-                    selectedItemColor: Theme.of(context).primaryColor,
+                    selectedItemColor:
+                    Theme.of(context).primaryColor,
                     items: [
                       BottomNavigationBarItem(icon: Icon(Icons.home),
                         //_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
@@ -265,10 +265,9 @@ class _HomeState extends State<Home> {
       if (_selectedIndex == 0)
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
-      else if(_selectedIndex == 1){
+      else if(_selectedIndex == 1)
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Recomm()));
-      }
       else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HotNews()));

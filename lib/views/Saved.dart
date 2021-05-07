@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:nara_app/helper/news.dart';
 import 'package:nara_app/models/Nara.dart';
-import 'package:nara_app/models/article_model.dart';
+import 'package:nara_app/models/saved_model.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
-import 'package:nara_app/views/article_list.dart';
-import 'package:nara_app/views/article_saved_list.dart';
+import 'package:nara_app/views/saved_list.dart';
 import 'package:provider/provider.dart';
 import 'loading.dart';
-import 'search.dart';
 
-class Later_saved extends StatefulWidget {
-  final String newsUrl;
-  Later_saved({Key key, @required this.newsUrl}) : super(key: key);
+class LaterSaved extends StatefulWidget {
+  final List newsUrl;
+  LaterSaved({@required this.newsUrl});
 
   @override
-  _Later_savedState createState() => _Later_savedState();
+  _LaterSavedState createState() => _LaterSavedState();
 }
 
-class _Later_savedState extends State<Later_saved> {
-  List<ArticleModel> articles = new List<ArticleModel>();
+class _LaterSavedState extends State<LaterSaved> {
+  List<SavedArticleModel> articles = new List<SavedArticleModel>();
+
   bool loading = true;
 
   bool _isVisible = false;
-
+  List Urls_news = [];
   void show() {
     setState(() {
       _isVisible = !_isVisible;
@@ -33,12 +32,13 @@ class _Later_savedState extends State<Later_saved> {
   @override
   void initState() {
     super.initState();
-    getNews();
+    getSavedNews();
   }
-  getNews() async {
+  getSavedNews() async {
+    Urls_news.addAll(widget.newsUrl);
     News newsClass = News();
-    await newsClass.getNews();
-    articles = newsClass.news;
+    await newsClass.getSavedNews(Urls_news);
+    articles = newsClass.SavedNews;
     setState(() {
       loading = false;
     });
@@ -72,28 +72,6 @@ class _Later_savedState extends State<Later_saved> {
               ),
             ],
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () => showSearch(
-                context: context,
-                delegate: Search(articles),
-              ),
-            ),
-            Visibility( visible: _isVisible,
-                child:Expanded(child: TextField(
-                  keyboardType: TextInputType.text,
-                  cursorColor: Colors.white,
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      focusColor: Colors.white,
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-                ))
-            )
-          ],
-
         ),
 
         body: loading
@@ -105,9 +83,8 @@ class _Later_savedState extends State<Later_saved> {
             ),
             child: Column(
               children: <Widget>[
-                ArticleSavedList(
+                SavedArticleList(
                   articles: articles,
-                  NewsUrl: widget.newsUrl
                 ),
               ],
             ),

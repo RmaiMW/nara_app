@@ -1,3 +1,4 @@
+
 class User {
 
   final String uid;
@@ -10,13 +11,14 @@ class User {
 class UserData {
   String username;
   // ignore: non_constant_identifier_names
-  String  NewsUrl ;
+  List NewsUrl =[];
   String iconImage;
 
 
 
+  // ignore: non_constant_identifier_names
   UserData({this.username,this.NewsUrl,this.iconImage});
-/*
+
   UserData.fromMap(Map<String, dynamic> data){
     //username = data['username'];
     NewsUrl = data['NewsUrl'];
@@ -29,13 +31,7 @@ class UserData {
       'NewsUrl' : NewsUrl,
       //'iconImage' : iconImage,
     };
-
-
-
   }
-
- */
-
 
 
 }

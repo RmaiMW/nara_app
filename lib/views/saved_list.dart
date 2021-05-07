@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:nara_app/models/article_model.dart';
-import 'package:nara_app/views/blog_tile.dart';
+import 'package:nara_app/models/saved_model.dart';
+import 'package:nara_app/views/saved_blog_tile.dart';
 
-class ArticleSavedList extends StatelessWidget {
+class SavedArticleList extends StatelessWidget {
+  final List<SavedArticleModel> articles;
 
-  final List<ArticleModel> articles;
-  final String NewsUrl;
-  ArticleSavedList({this.articles, Key key, @required this.NewsUrl}): super(key: key);
+  SavedArticleList({this.articles});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -17,12 +17,13 @@ class ArticleSavedList extends StatelessWidget {
           itemCount: articles.length,
           shrinkWrap: true,
           physics: ClampingScrollPhysics(),
+
           itemBuilder: (context, index) {
-            return BlogTile(
+            return SavedBlogTile(
               imageUrl: articles[index].urlToImage,
               title: articles[index].title,
               desc: articles[index].description,
-              url: NewsUrl,
+              url: articles[index].url,
             );
           }),
     );

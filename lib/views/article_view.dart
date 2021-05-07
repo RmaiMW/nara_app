@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:provider/provider.dart';
@@ -29,6 +30,7 @@ class _ArticleViewState extends State<ArticleView> {
   bool _fav =false;
   bool _like =false;
   bool _dis=false;
+  bool flag = true;
   void favorite() {
     setState(() {
       _fav = !_fav;
@@ -52,15 +54,16 @@ class _ArticleViewState extends State<ArticleView> {
     });
   }
   /*
-  _addNewsUrl(String Newsurl) {
+  _addNewsUrl(String NewsUrl) async{
     if (Newsurl.isNotEmpty) {
       setState(() {
-        _NewsUrl.add(Newsurl);
-      });
+
       //subingredientController.clear();
     }
   }
+
    */
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,6 +114,14 @@ class _ArticleViewState extends State<ArticleView> {
                         label: Text('')),*/
                     FlatButton.icon(onPressed: () {},
                         icon: IconButton(icon: Icon(
+                            _fav ? Icons.favorite : Icons
+                                .favorite_border, color: Colors.white),
+                          onPressed: () async {
+                            favorite();
+                          },),
+                        label: Text('')),
+                    FlatButton.icon(onPressed: () {},
+                        icon: IconButton(icon: Icon(
                           Icons.public, color: Colors.white,),
                           onPressed: ()  {
                           },),
@@ -151,7 +162,9 @@ class _ArticleViewState extends State<ArticleView> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
-              //_NewsUrl.addAll(userData.NewsUrl);
+              _NewsUrl.addAll(userData.NewsUrl);
+              //print(userData.NewsUrl.toList());
+              //print(userData.username);
               return Form(
                 key: _formKey,
                 child: Scaffold(
@@ -165,26 +178,7 @@ class _ArticleViewState extends State<ArticleView> {
                         mainAxisSize: MainAxisSize.max,
                         //  crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
-                          Row(crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              FlatButton.icon(onPressed: () {},
-                                  icon: IconButton(icon: Icon(
-                                      _like ? Icons.thumb_up_alt : Icons
-                                          .thumb_up_alt_outlined,
-                                      color: Colors.white), onPressed: () {
-                                    like();
-                                  },),
-                                  label: Text('')),
-                              FlatButton.icon(onPressed: () {},
-                                  icon: IconButton(icon: Icon(
-                                      _dis ? Icons.thumb_down_alt : Icons
-                                          .thumb_down_outlined,
-                                      color: Colors.white), onPressed: () {
-                                    dis();
-                                  },),
-                                  label: Text('')),
-                            ],
-                          ),
+
                           SizedBox(height: 40,),
                           Row(crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -197,12 +191,36 @@ class _ArticleViewState extends State<ArticleView> {
                                           .favorite_border, color: Colors.white),
                                     onPressed: () async {
                                       favorite();
-                                      if(_fav) {
-                                        await DatabaseService(uid: user.uid)
-                                            .updateUserData(
-                                            userData.username, NewsUrl,
-                                            userData.iconImage);
-                                        print(NewsUrl);
+                                      if(_fav && (NewsUrl!=null)) {
+                                        _NewsUrl.forEach((element) {
+                                          if(element == NewsUrl){
+                                            flag=false;
+                                          }
+                                          //flag = true;
+                                        });
+                                        if(flag && _fav) {
+                                          _NewsUrl.add(NewsUrl);
+                                          //userData.NewsUrl= _NewsUrl;
+                                          await DatabaseService(uid: user.uid)
+                                              .updateUserData(
+                                              userData.username, _NewsUrl,
+                                              userData.iconImage);
+                                        }
+                                        else{
+                                          Fluttertoast.showToast(
+                                              msg: "Its already in Saved List",
+                                              toastLength: Toast.LENGTH_LONG,
+                                              gravity: ToastGravity.TOP,
+                                              timeInSecForIosWeb: 3,
+                                              backgroundColor: Colors.blue,
+                                              textColor: Colors.black,
+                                              fontSize: 16.0
+                                          );
+
+                                        }
+                                        //print(_NewsUrl);
+                                        //print(NewsUrl);
+                                        //setState(() {});
                                       }
                                       else{
                                         print(NewsUrl);
@@ -234,9 +252,10 @@ class _ArticleViewState extends State<ArticleView> {
                       width: MediaQuery.of(context).size.width,
                       child: WebView(
                         initialUrl: widget.blogUrl,
-                        onWebViewCreated: ((WebViewController webViewController) {
+                        onWebViewCreated: ((WebViewController webViewController) async {
                           _completer.complete(webViewController);
                           NewsUrl = widget.blogUrl;
+                          //setState(() {});
                         }),
                       ),
 

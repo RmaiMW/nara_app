@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nara_app/models/user.dart';
+import 'package:provider/provider.dart';
 import 'article_view.dart';
 
 class BlogTile extends StatelessWidget {

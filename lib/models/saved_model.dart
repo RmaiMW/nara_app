@@ -1,4 +1,4 @@
-class ArticleModel {
+class SavedArticleModel {
   String author;
   String title;
   String description;
@@ -6,7 +6,7 @@ class ArticleModel {
   String urlToImage;
   String content;
 
-  ArticleModel({
+  SavedArticleModel({
     this.author,
     this.title,
     this.description,
@@ -15,4 +15,3 @@ class ArticleModel {
     this.content,
   });
 }
-

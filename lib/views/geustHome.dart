@@ -7,7 +7,7 @@ import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/category_list.dart';
 import 'geustprofile.dart';
 import 'loading.dart';
-import 'profile.dart';
+import 'recommendation.dart';
 
 class geustHome extends StatefulWidget {
   @override

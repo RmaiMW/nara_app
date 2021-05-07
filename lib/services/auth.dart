@@ -135,11 +135,12 @@ class AuthService {
       var firebaseUser = await _auth.currentUser();
       firebaseUser.updatePassword(password);
     }
-    /*
+
     Future<void> deleteUser() async{
       try {
-        await FirebaseAuth.instance.currentUser.delete();
-      } on FirebaseAuthException catch (e) {
+        FirebaseUser user = await FirebaseAuth.instance.currentUser();
+        user.delete();
+      } catch (e) {
         if (e.code == 'requires-recent-login') {
           print(
               'The user must reauthenticate before this operation can be executed.');
@@ -147,7 +148,7 @@ class AuthService {
       }
     }
 
-     */
+
 
 
 
