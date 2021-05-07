@@ -22,7 +22,7 @@ class BottomNavBarBloc {
         Navigator.push(context,MaterialPageRoute(builder: (context)=>Home()));
         break;
       case 1:
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
+     //   Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));
         break;
     }
   }
