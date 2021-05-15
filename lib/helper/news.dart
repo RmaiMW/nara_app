@@ -48,11 +48,13 @@ class News {
       }//for
   }
     int n=0;
-    while(n<(agnews.length/api.length-1)){
+    int counter=0;
+    while(n<agnews.length-1){
       for(int j=0;j<all_news.length-1;j++){
-        news.add(agnews[n+all_news[j]]);
+        n=counter+all_news[j];
+        news.add(agnews[n]);
       }
-      n++;
+      counter++;
     }
     print(news.length);
     print(agnews.length);
