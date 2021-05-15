@@ -146,9 +146,6 @@ class News {
       news.add(agnews[all_news[i]]);
 
     }
-    print(news.length);
-    print(agnews.length);
-    print(api.length);
   }
 
 
