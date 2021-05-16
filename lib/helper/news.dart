@@ -52,8 +52,7 @@ class News {
     while(n<agnews.length-1 ){
       for(int j=0;j<all_news.length-1;j++){
         n=counter+all_news[j];
-        if(n>agnews.length-1) return;
-        else
+
         news.add(agnews[n]);
       }
       counter++;
