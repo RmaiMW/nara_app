@@ -22,11 +22,12 @@ class DatabaseService {
   void updateUserPassword(String password) {
     _auth.updatePassword(password);
   }
-  Future<void> updateUserData(String username,List NewsUrl,String iconImage) async {
+  Future<void> updateUserData(String username,List NewsUrl,String iconImage,String Category) async {
     return await naraCollection.document(uid).setData({
       'username': username,
       'NewsUrl': NewsUrl,
       'iconImage': iconImage,
+      'category' : Category
     });
   }
   Future<void> deleteNews(String newsUrl){
@@ -57,6 +58,7 @@ class DatabaseService {
       username: snapshot.data['username'],
       NewsUrl: snapshot.data['NewsUrl'],
       iconImage: snapshot.data['iconImage'],
+      Category: snapshot.data['category']
     );
   }
   /*

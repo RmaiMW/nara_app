@@ -48,14 +48,11 @@ class News {
       }//for
   }
     int n=0;
-    int counter=0;
-    while(n<agnews.length-1 ){
+    while(n<(agnews.length/api.length-1)){
       for(int j=0;j<all_news.length-1;j++){
-        n=counter+all_news[j];
-
-        news.add(agnews[n]);
+        news.add(agnews[n+all_news[j]]);
       }
-      counter++;
+      n++;
     }
     print(news.length);
     print(agnews.length);
@@ -88,8 +85,8 @@ class News {
       });
     }
   }
-  Future<void> getRecomNews() async {
-    String url ='https://newsapi.org/v2/top-headlines?country=de&category=general&apiKey=9114be959197422d932f035b9c5bc462';
+  Future<void> getRecomNews(String category) async {
+    String url ='https://newsapi.org/v2/top-headlines?country=de&category=$category&apiKey=9114be959197422d932f035b9c5bc462';
     //'http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3699636a771049aca38ea30dd4ac1344';
     //https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=9114be959197422d932f035b9c5bc462
     var response = await http.get(url);
@@ -150,7 +147,6 @@ class News {
 
     }
   }
-
 
 }
 

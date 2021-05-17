@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:nara_app/Reg_and_logo/bottom_navbar_bloc.dart';
 import 'package:nara_app/helper/data.dart';
 import 'package:nara_app/helper/news.dart';
 import 'package:nara_app/models/Nara.dart';
@@ -21,6 +22,7 @@ import 'package:nara_app/views/changepassword.dart';
 import 'package:nara_app/views/changetheme.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/hotnews.dart';
+import 'package:nara_app/views/recom_cat_list.dart';
 import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'loading.dart';
@@ -29,8 +31,8 @@ import 'search.dart';
 
 
 class Recomm extends StatefulWidget {
-
-
+  final String cat;
+  Recomm({this.cat});
   @override
   _RecommState createState() => _RecommState();
 }
@@ -42,6 +44,8 @@ class _RecommState extends State<Recomm> {
   var _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   final StorageRepo _storageRepo=StorageRepo();
+  String category;
+  String temp_cat;
   bool isSwitched = false;
   List _News = [];
   int _selectedIndex = 1;
@@ -57,15 +61,17 @@ class _RecommState extends State<Recomm> {
 
   @override
   void initState() {
+    temp_cat=widget.cat;
     super.initState();
     categories = getCategories();
     _News.clear();
-    getNews();
+    //print(category);
+    getNews(temp_cat);
   }
 
-  getNews() async {
+  getNews(String cat) async {
     News newsClass = News();
-    await newsClass.getRecomNews();
+    await newsClass.getRecomNews(cat);
     articles = newsClass.news;
     setState(() {
       loading = false;
@@ -109,7 +115,7 @@ class _RecommState extends State<Recomm> {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
               _News.addAll(userData.NewsUrl);
-
+              category = userData.Category;
               return Form(
                 key: _formKey,
                 child: Scaffold(
@@ -182,7 +188,7 @@ class _RecommState extends State<Recomm> {
                                           source: ImageSource.gallery);
 
                                       await _storageRepo.uploadFile(image);
-                                      await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid));
+                                      await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid),userData.Category);
                                       setState(() {});
                                     },
                                   ),
@@ -213,7 +219,10 @@ class _RecommState extends State<Recomm> {
                       ),
                       child: Column(
                         children: <Widget>[
-
+                          category=='' ?
+                            FavCategoryList(
+                              categories: categories,
+                            ):
                           /// Blogs
                           ArticleList(
                             articles: articles,
@@ -222,7 +231,24 @@ class _RecommState extends State<Recomm> {
                       ),
                     ),
                   ),
+                  floatingActionButton: Builder(builder: (BuildContext context){
+                    return FloatingActionButton(onPressed: () async {
+                      await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,userData.iconImage,'');
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              Recomm(
+                                cat: userData.Category,
+                                //category: categoryName.toLowerCase(),
+                              ),
+                        ),
+                      );
+                    },
+                    child: Icon(Icons.more_vert),
 
+                    );
+                  }),
                   bottomNavigationBar: BottomNavigationBar(
                     currentIndex: _selectedIndex,
                     selectedFontSize: 14,
@@ -265,9 +291,11 @@ class _RecommState extends State<Recomm> {
       if (_selectedIndex == 0)
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Home()));
+
       else if(_selectedIndex == 1)
+
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Recomm()));
+            context, MaterialPageRoute(builder: (context) => Recomm(cat: category,)));
       else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HotNews()));

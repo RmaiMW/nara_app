@@ -98,7 +98,7 @@ packages:
       name: cupertino_icons
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   equatable:
     dependency: "direct main"
     description:
@@ -223,6 +223,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.11"
+  flutter_share:
+    dependency: "direct main"
+    description:
+      name: flutter_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0"
   flutter_spinkit:
     dependency: "direct main"
     description:
@@ -489,7 +496,7 @@ packages:
       name: states_rebuilder
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0+1"
+    version: "4.1.0"
   stream_channel:
     dependency: transitive
     description:

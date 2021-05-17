@@ -28,8 +28,6 @@ import 'search.dart';
 
 
 class HotNews extends StatefulWidget {
-
-
   @override
   _HotNewsState createState() => _HotNewsState();
 }
@@ -44,6 +42,7 @@ class _HotNewsState extends State<HotNews> {
   bool isSwitched = false;
   List _News = [];
   int _selectedIndex = 2;
+  String category;
 
 
   bool _isVisible = false;
@@ -108,6 +107,7 @@ class _HotNewsState extends State<HotNews> {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
               _News.addAll(userData.NewsUrl);
+              category=userData.Category;
 
               return Form(
           key: _formKey,
@@ -181,7 +181,7 @@ class _HotNewsState extends State<HotNews> {
                                       source: ImageSource.gallery);
 
                                   await _storageRepo.uploadFile(image);
-                                  await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid));
+                                  await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid),userData.Category);
                                   setState(() {});
                                 },
                               ),
@@ -264,7 +264,8 @@ class _HotNewsState extends State<HotNews> {
             context, MaterialPageRoute(builder: (context) => Home()));
       else if(_selectedIndex == 1)
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Recomm()));
+            context, MaterialPageRoute(builder: (context) => Recomm(cat: category,)));
+
       else {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => HotNews()));

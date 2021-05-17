@@ -77,7 +77,7 @@ class _SavedBlogTileState extends State<SavedBlogTile> {
                               print(newsUrl);
                               await DatabaseService(uid: user.uid)
                                   .updateUserData(userData.username, newsUrl,
-                                  userData.iconImage);
+                                  userData.iconImage,userData.Category);
                               //print(newsUrl);
 
                           setState(()  {

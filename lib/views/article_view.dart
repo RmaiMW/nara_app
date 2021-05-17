@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
@@ -11,7 +12,8 @@ import 'loading.dart';
 
 class ArticleView extends StatefulWidget {
   final String blogUrl;
-  ArticleView({this.blogUrl});
+  final String title;
+  ArticleView({this.blogUrl,this.title});
 
   @override
   _ArticleViewState createState() => _ArticleViewState();
@@ -52,6 +54,15 @@ class _ArticleViewState extends State<ArticleView> {
   void changeFontSize() async{
     setState(() {
     });
+  }
+  Future<void> share(dynamic link,String title) async{
+    await FlutterShare.share(
+      title: 'Nara News App',
+      text: title,
+      linkUrl: link,
+      chooserTitle: 'Where you want to Share'
+
+    );
   }
   /*
   _addNewsUrl(String NewsUrl) async{
@@ -111,7 +122,15 @@ class _ArticleViewState extends State<ArticleView> {
                           onPressed: () async {
                             favorite();
                           },),
-                        label: Text('')),*/
+                        label: Text('')),
+                    FlatButton.icon(onPressed: () {},
+                        icon: IconButton(icon: Icon(
+                            Icons.share, color: Colors.white),
+                          onPressed: () async {
+                              share(link, title)
+                          },),
+                        label: Text('')),
+                        */
                     FlatButton.icon(onPressed: () {},
                         icon: IconButton(icon: Icon(
                             _fav ? Icons.favorite : Icons
@@ -182,6 +201,13 @@ class _ArticleViewState extends State<ArticleView> {
                           SizedBox(height: 40,),
                           Row(crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
+                              FlatButton.icon(onPressed: () {},
+                                  icon: IconButton(icon: Icon(
+                                      Icons.share, color: Colors.white),
+                                    onPressed: () async {
+                                      share(NewsUrl, widget.title);
+                                    },),
+                                  label: Text('')),
                               FlatButton.icon(onPressed: () async {
                                 //_addNewsUrl(NewsUrl);
                                 //_NewsUrl.add(NewsUrl);
@@ -204,7 +230,7 @@ class _ArticleViewState extends State<ArticleView> {
                                           await DatabaseService(uid: user.uid)
                                               .updateUserData(
                                               userData.username, _NewsUrl,
-                                              userData.iconImage);
+                                              userData.iconImage,userData.Category);
                                         }
                                         else{
                                           Fluttertoast.showToast(

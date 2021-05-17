@@ -44,6 +44,7 @@ class _HomeState extends State<Home> {
   bool isSwitched = false;
   List _News = [];
   int _selectedIndex = 0;
+  String category;
 
 
   bool _isVisible = false;
@@ -108,6 +109,7 @@ class _HomeState extends State<Home> {
             if (snapshot.hasData) {
               UserData userData = snapshot.data;
               _News.addAll(userData.NewsUrl);
+              category= userData.Category;
 
               return Form(
                 key: _formKey,
@@ -181,7 +183,7 @@ class _HomeState extends State<Home> {
                                           source: ImageSource.gallery);
 
                                       await _storageRepo.uploadFile(image);
-                                      await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid));
+                                      await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid),userData.Category);
                                       setState(() {});
                                     },
                                   ),
@@ -209,7 +211,9 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.symmetric(
                         horizontal: 16,
                       ),
+
                       child: Column(
+
                         children: <Widget>[
 
                           /// Categories
@@ -269,7 +273,7 @@ class _HomeState extends State<Home> {
             context, MaterialPageRoute(builder: (context) => Home()));
       else if(_selectedIndex == 1){
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Recomm()));
+            context, MaterialPageRoute(builder: (context) => Recomm(cat: category,)));
       }
       else {
         Navigator.push(

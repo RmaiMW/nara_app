@@ -54,7 +54,7 @@ class _ChangeNameState extends State<ChangeName> {
                         child: Text('Apply',style: TextStyle(color:Theme.of(context).primaryColor),),
                         onPressed: () async{
                           if(_formkey.currentState.validate()){
-                            await DatabaseService(uid: user.uid).updateUserData(_name, userData.NewsUrl, userData.iconImage);
+                            await DatabaseService(uid: user.uid).updateUserData(_name, userData.NewsUrl, userData.iconImage,userData.Category);
                             Navigator.of(context).pop();
                           }
                         },

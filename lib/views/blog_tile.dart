@@ -26,6 +26,7 @@ class BlogTile extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => ArticleView(
               blogUrl: url,
+              title:  title,
             ),
           ),
         );
