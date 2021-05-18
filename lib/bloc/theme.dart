@@ -5,16 +5,19 @@ enum MyThemeKeys { LIGHT, DARK, DARKER }
 class MyThemes {
   static final ThemeData lightTheme = ThemeData(
     primaryColor: Colors.redAccent,
+    secondaryHeaderColor: Colors.redAccent[100],
     brightness: Brightness.light,
   );
 
   static final ThemeData darkTheme = ThemeData(
     primaryColor: Colors.grey,
+    secondaryHeaderColor: Colors.grey[300],
     brightness: Brightness.dark,
   );
 
   static final ThemeData darkerTheme = ThemeData(
     primaryColor: Colors.black,
+    secondaryHeaderColor: Colors.black12,
     brightness: Brightness.dark,
   );
 

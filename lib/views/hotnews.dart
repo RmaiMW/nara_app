@@ -112,97 +112,6 @@ class _HotNewsState extends State<HotNews> {
               return Form(
           key: _formKey,
           child: Scaffold(
-            appBar:
-            AppBar(
-              centerTitle: true,
-              //  backgroundColor:Theme.of(context).primaryColor,// Colors.redAccent,
-              elevation: 0.0,
-              leading: Builder(builder: (context) {
-                return IconButton(
-                  icon: Icon(Icons.menu, color: Colors.white), onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },);
-              },),
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-
-                  Text('NARA'),
-                  Text(
-                    ' News',
-                    style: TextStyle(
-                      color: Colors.blueGrey,
-                    ),
-                  ),
-                ],
-              ),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.search),
-                  onPressed: () =>
-                      showSearch(
-                        context: context,
-                        delegate: Search(articles),
-                      ),
-                ),
-                Visibility(visible: _isVisible,
-                    child: Expanded(child: TextField(
-                      keyboardType: TextInputType.text,
-                      cursorColor: Colors.white,
-                      decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          focusColor: Colors.white,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(10.0)))),
-                    ))
-                )
-              ],
-            ),
-            drawer: Drawer(
-              child: ListView(
-                children: <Widget>[
-                  DrawerHeader(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: <Color>[
-                          Colors.deepOrange,
-                          Colors.orangeAccent
-                        ])
-                    ),
-                    child: Container(
-                      child: Column(
-                        children: <Widget>[
-                          Padding(padding: EdgeInsets.all(8.0),
-                              child:Avatar(
-                                avatarUrl: userData?.iconImage,
-                                onTap: () async {
-                                  File image = await ImagePicker.pickImage(
-                                      source: ImageSource.gallery);
-
-                                  await _storageRepo.uploadFile(image);
-                                  await DatabaseService(uid: user.uid).updateUserData(userData.username,userData.NewsUrl ,await _storageRepo.getUserProfileImage(user.uid),userData.Category);
-                                  setState(() {});
-                                },
-                              ),
-                          ),
-                          Text(userData.username,style: TextStyle(color: Colors.white,fontSize: 18.0),)
-                        ],
-                      ),
-                    ),
-                  ),
-                  CustomizeListTile(Icons.person,'Profile', _showname),
-                  CustomizeListTile(Icons.notifications,'Notifications', ()=>{}),
-                  CustomizeListTile(Icons.favorite,'Favorite', () {Navigator.push(context, MaterialPageRoute(builder: (context)=>LaterSaved(newsUrl: _News)));}),
-                  CustomizeListTile(Icons.change_history,'Change Theme', _changetheme),
-                  CustomizeListTile(Icons.password,'Change Password', () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePass()));}),
-                  CustomizeListTile(Icons.logout,'Log out', () async {await _auth.signout();
-                  Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (context) => Wrapper()));}),
-                ],
-              ),
-            ),
-
             body: loading
                 ? Loading()
                 : SingleChildScrollView(
@@ -221,24 +130,7 @@ class _HotNewsState extends State<HotNews> {
               ),
             ),
 
-            bottomNavigationBar: BottomNavigationBar(
-              currentIndex: _selectedIndex,
-              selectedFontSize: 14,
-              unselectedFontSize: 13,
-              unselectedItemColor: Colors.grey[500],
-              selectedItemColor: Theme.of(context).primaryColor,
-              items: [
-                BottomNavigationBarItem(icon: Icon(Icons.home),
-                  //_selectedIndex==0?Icon(Icons.home,color: Colors.blueGrey):Icon(Icons.home,color: Colors.redAccent,),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.recommend), label: 'Recommend',),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.local_fire_department), label: 'Hot',)
-              ],
-              onTap: _onItemTapped,
-            ),
+
           ),
         );
   }

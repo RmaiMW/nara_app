@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nara_app/views/Entraance.dart';
 import 'package:nara_app/views/hotnews.dart';
 import 'package:nara_app/views/geustHome.dart';
+import 'package:nara_app/views/mainpage.dart';
 import 'home.dart';
 import 'package:nara_app/authenticate/authenticate.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +22,7 @@ class Wrapper extends StatelessWidget {
     if (user == null){
       return Authenticate();
     } else{
-      return Home();
+      return MainPage();
     }
 
   }
