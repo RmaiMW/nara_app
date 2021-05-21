@@ -86,69 +86,18 @@ class _ArticleViewState extends State<ArticleView> {
           //   backgroundColor: Colors.redAccent,
           elevation: 0.0,
 
-          title: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              //  crossAxisAlignment: CrossAxisAlignment.end,
-              children: <Widget>[
-                Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [/*
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                            _like ? Icons.thumb_up_alt : Icons
-                                .thumb_up_alt_outlined,
-                            color: Colors.white), onPressed: () {
-                          like();
-                        },),
-                        label: Text('')),
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                            _dis ? Icons.thumb_down_alt : Icons
-                                .thumb_down_outlined,
-                            color: Colors.white), onPressed: () {
-                          dis();
-                        },),
-                        label: Text('')),
-                  ],
+          title:Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+
+              Text('NARA'),
+              Text(
+                ' News',
+                style: TextStyle(
+                  color: Colors.blueGrey,
                 ),
-                SizedBox(height: 40,),
-                Row(crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                            _fav ? Icons.favorite : Icons
-                                .favorite_border, color: Colors.white),
-                          onPressed: () async {
-                            favorite();
-                          },),
-                        label: Text('')),
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                            Icons.share, color: Colors.white),
-                          onPressed: () async {
-                              share(link, title)
-                          },),
-                        label: Text('')),
-                        */
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                            _fav ? Icons.favorite : Icons
-                                .favorite_border, color: Colors.white),
-                          onPressed: () async {
-                            favorite();
-                          },),
-                        label: Text('')),
-                    FlatButton.icon(onPressed: () {},
-                        icon: IconButton(icon: Icon(
-                          Icons.public, color: Colors.white,),
-                          onPressed: ()  {
-                          },),
-                        label: Text('')),
-                  ],
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
 
