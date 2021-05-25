@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:nara_app/models/user.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/views/home.dart';
+import 'package:nara_app/views/mainpage.dart';
 //import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
 import 'package:provider/provider.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -175,7 +176,7 @@ class _RegistrationState extends State<Registration> {
                                 await _auth.signInWithEmailAndPassword(
                                     email.text, password.text);
                                 await Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => Home()));
+                                    builder: (context) => MainPage()));
                               }
 
                           }

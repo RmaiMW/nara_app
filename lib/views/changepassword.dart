@@ -78,7 +78,8 @@ class _ChangePassState extends State<ChangePass> {
         ),
         body: Form(
           key: _formkey,
-          child: Column(
+          child:SingleChildScrollView(
+            child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
@@ -208,6 +209,7 @@ class _ChangePassState extends State<ChangePass> {
               ),
 
             ],
+          ),
           ),
         ),
       );
