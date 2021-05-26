@@ -9,9 +9,11 @@ import 'package:nara_app/models/Nara.dart';
 import 'package:nara_app/models/article_model.dart';
 import 'package:nara_app/models/category_model.dart';
 import 'package:nara_app/models/user.dart';
+import 'package:nara_app/services/NotificationPlugin.dart';
 import 'package:nara_app/services/auth.dart';
 import 'package:nara_app/services/database.dart';
 import 'package:nara_app/services/storage.dart';
+import 'package:nara_app/views/LocalNotificationScreen.dart';
 import 'package:nara_app/views/Saved.dart';
 import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/avatar.dart';
@@ -62,8 +64,17 @@ class _MainPageState extends State<MainPage> {
     categories = getCategories();
     _News.clear();
     getNews();
+    notificationPlugin.setOnNotificationClick(onNotificationClick);
   }
 
+  onNotificationClick(String payload) {
+    print('Payload $payload');
+    Navigator.push(context, MaterialPageRoute(builder: (coontext) {
+      return Recomm(
+        cat: category,
+      );
+    }));
+  }
   getNews() async {
     News newsClass = News();
     await newsClass.getNews();
@@ -204,7 +215,7 @@ class _MainPageState extends State<MainPage> {
                           ),
                         ),
                         CustomizeListTile(Icons.person,'Profile', _showname),
-                        CustomizeListTile(Icons.notifications,'Notifications', ()=>{}),
+                        CustomizeListTile(Icons.notifications,'Notifications', ()=>{Navigator.push(context, MaterialPageRoute(builder: (context)=>LocalNotificationScreen()))}),
                         CustomizeListTile(Icons.favorite,'Favorite', () {Navigator.push(context, MaterialPageRoute(builder: (context)=>LaterSaved(newsUrl: _News)));}),
                         CustomizeListTile(Icons.change_history,'Change Theme', _changetheme),
                         CustomizeListTile(Icons.password,'Change Password', () {Navigator.push(context, MaterialPageRoute(builder: (context) => ChangePass()));}),

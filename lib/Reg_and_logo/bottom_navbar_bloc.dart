@@ -1,14 +1,9 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nara_app/models/user.dart';
 import 'package:nara_app/views/home.dart';
 import 'package:nara_app/views/hotnews.dart';
 import 'package:nara_app/views/recommendation.dart';
-import 'package:provider/provider.dart';
-//import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/recommendation.dart';
-//import 'file:///C:/Users/ramiw/AndroidStudioProjects/nara_app/lib/views/home.dart';
-
 enum NavBarItem { HOME, RECOMM, HOTNEWS }
 
 class BottomNavBarBloc {

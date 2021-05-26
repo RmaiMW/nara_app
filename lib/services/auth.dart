@@ -122,7 +122,9 @@ class AuthService {
       print(_firebaseUser.email);
       print(password);
       try {
-          AuthResult authRes = await _firebaseUser.reauthenticateWithCredential(authCredentials);
+        //var _firebaseUser = await _auth.currentUser();
+          var authRes = await _firebaseUser.reauthenticateWithCredential(authCredentials);
+          print(authRes.user != null);
           return (authRes.user != null);
         }catch(e){
             print(e);

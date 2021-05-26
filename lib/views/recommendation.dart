@@ -116,6 +116,7 @@ class _RecommState extends State<Recomm> {
               UserData userData = snapshot.data;
               _News.addAll(userData.NewsUrl);
               category = userData.Category;
+              print(category);
               return Form(
                 key: _formKey,
                 child: Scaffold(

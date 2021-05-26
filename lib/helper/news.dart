@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:nara_app/models/article_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:nara_app/models/saved_model.dart';
+import 'package:nara_app/services/NotificationPlugin.dart';
 
 class News {
   List<ArticleModel> news = [];
@@ -101,7 +102,7 @@ class News {
       var jsonData = jsonDecode(response.body);
 
       if (jsonData['status'] == 'ok') {
-        jsonData['articles'].forEach((element) {
+        jsonData['articles'].forEach((element) async {
           if (element['urlToImage'] != null && element['description'] != null) {
             ArticleModel articleModel = new ArticleModel(
               title: element['title'],
@@ -113,6 +114,7 @@ class News {
             );
 
             news.add(articleModel);
+            await notificationPlugin.showNotificationWithAttachment(articleModel.title,articleModel.description,articleModel.urlToImage);
           }
         });
       }
