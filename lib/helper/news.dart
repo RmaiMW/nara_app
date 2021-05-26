@@ -17,7 +17,7 @@ class News {
         //'http://newsapi.org/v2/top-headlines?country=us&category=business&apiKey=3699636a771049aca38ea30dd4ac1344';
         //https://newsapi.org/v2/top-headlines?country=de&category=business&apiKey=9114be959197422d932f035b9c5bc462
 
-    var rese = await http.get("http://10.0.2.2/NARA-app/connect.php");
+    var rese = await http.get("http://10.0.2.2/NARA-website/nara/connect.php");
     if (rese.statusCode == 200) {
       api = json.decode(rese.body);
       all_news.add(0);
@@ -50,7 +50,7 @@ class News {
   }
     int n=0;
     while(n<(agnews.length/api.length-1)){
-      for(int j=0;j<all_news.length-1;j++){
+      for(int j=0;j<all_news.length-2;j++){
         news.add(agnews[n+all_news[j]]);
       }
       n++;
@@ -61,7 +61,7 @@ class News {
 
   //for saved news
   Future<void> getSavedNews(List NewsUrl) async {
-    var rese = await http.get("http://10.0.2.2/NARA-app/connect.php");
+    var rese = await http.get("http://10.0.2.2/NARA-website/nara/connect.php");
     if (rese.statusCode == 200) {
       api = json.decode(rese.body);
       all_news.add(0);
@@ -120,7 +120,7 @@ class News {
       }
     }
     Future<void> getHotNews() async {
-      var rese = await http.get("http://10.0.2.2/NARA-app/connect.php");
+      var rese = await http.get("http://10.0.2.2/NARA-website/nara/connect.php");
       if (rese.statusCode == 200) {
         api = json.decode(rese.body);
         all_news.add(0);

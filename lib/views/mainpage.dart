@@ -15,14 +15,11 @@ import 'package:nara_app/services/database.dart';
 import 'package:nara_app/services/storage.dart';
 import 'package:nara_app/views/LocalNotificationScreen.dart';
 import 'package:nara_app/views/Saved.dart';
-import 'package:nara_app/views/article_list.dart';
 import 'package:nara_app/views/avatar.dart';
-import 'package:nara_app/views/category_list.dart';
 import 'package:nara_app/views/changename.dart';
 import 'package:nara_app/views/changepassword.dart';
 import 'package:nara_app/views/changetheme.dart';
 import 'package:nara_app/views/hotnews.dart';
-import 'package:nara_app/views/wrapper.dart';
 import 'package:provider/provider.dart';
 import 'home.dart';
 import 'loading.dart';
@@ -64,7 +61,12 @@ class _MainPageState extends State<MainPage> {
     categories = getCategories();
     _News.clear();
     getNews();
+    notificationPlugin.setListenerForLowerVersions(onNotificationInLowerVersions);
     notificationPlugin.setOnNotificationClick(onNotificationClick);
+
+  }
+  onNotificationInLowerVersions(ReceivedNotification receivedNotification) {
+    print('Notification Received ${receivedNotification.id}');
   }
 
   onNotificationClick(String payload) {

@@ -93,49 +93,12 @@ class _SavedBlogTileState extends State<SavedBlogTile> {
                                   textColor: Colors.black,
                                   fontSize: 16.0
                               );
-
-                            /*
-                            else{
-                              Navigator.pushReplacement(context,
-                                  MaterialPageRoute(builder: (context) =>
-                                      LaterSaved(newsUrl: [])));
-                            }
-
-                             */
                           });
 
 
 
                           }),
                         label: Text('')),
-                    /*
-                          Positioned(
-                          right: 0.0,
-                          child:
-                          Align(
-                            alignment: Alignment.topRight,
-                              child: CircleAvatar(
-                              radius: 14.0,
-                              backgroundColor: Colors.white,
-                              child: IconButton(icon: Icon(Icons.close, color: Colors.red,),
-                                  onPressed: () async {
-                                if(newsUrl != null)
-                                newsUrl.forEach((element) {
-                                  if(url != null && element == url){
-                                    newsUrl.remove(element);
-                                  }
-                              }
-                              );
-                              print(newsUrl.length);
-                              await DatabaseService(uid: user.uid).updateUserData(userData.username, newsUrl, userData.iconImage);
-                              newsUrl.clear();
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LaterSaved(newsUrl: userData.NewsUrl)));
-                              }),
-                              ),
-                             ),
-                           ),
-
-                     */
 
                           ClipRRect(
                               borderRadius: BorderRadius.circular(6),
